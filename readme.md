@@ -1,9 +1,5 @@
 # Goals
 ## MVP
-- Something's wrong with get nap
-- Get activity not working
-- get weight not working...
-- get notes not working
 - Export CSV
 
 ## later features

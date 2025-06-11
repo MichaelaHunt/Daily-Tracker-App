@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Button, StyleSheet } from 'react-native';
 import MealSection from '../components/meals';
 import ActivitySection from '../components/activity';
 import { globalStyles } from '../styles/globalStyles';
@@ -64,15 +64,31 @@ export default function Home() {
       <ScrollView contentContainerStyle={globalStyles.container}>
         <Text style={globalStyles.titleText}>{formattedDate}</Text>
         <StatusBar style="auto" />
+        <View style={[styles.line, {marginBottom: 8}]}></View>
         <MealSection></MealSection>
+        <View style={[styles.line, {marginBottom: 8}]}></View>
         <ActivitySection></ActivitySection>
+        <View style={[styles.line, {marginBottom: 8}]}></View>
         <SleepSection></SleepSection>
+        <View style={[styles.line, {marginBottom: 8}]}></View>
         <WeightSection></WeightSection>
+        <View style={[styles.line, {marginBottom: 8}]}></View>
         <NoteSection></NoteSection>
+        <View style={[styles.line, {marginBottom: 8}]}></View>
+        <View style={{ marginTop: 16, marginBottom: 16 }}>
+            <Button title='Export CSV'></Button>
+        </View>
       </ScrollView>
       <View style={globalStyles.homeSaver}></View>
     </View>
   );
 }
 
-
+const styles = StyleSheet.create({
+  line: {
+    border: 'none',
+    borderBottom: 'solid',
+    borderColor: '#d9d8da',
+    borderWidth: 0.5,
+  }
+});

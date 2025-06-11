@@ -53,7 +53,7 @@ function NoteSection() {
                     ) : (
                         <Text>No notes today</Text>
                     )}
-                    <View style={{ marginTop: 8, marginBottom: 24 }}>
+                    <View style={{ marginTop: 16, marginBottom: 16 }}>
                         <Link href="/enter-note" asChild>
                             <Button title='Add Note'></Button>
                         </Link>
