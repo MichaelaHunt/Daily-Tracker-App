@@ -1,0 +1,94 @@
+import { globalStyles } from "../styles/globalStyles";
+import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import TableRow from "./table-row";
+import { colors } from "../styles/colors";
+import { Link } from 'expo-router';
+import { useState, useCallback } from "react";
+import { useFocusEffect } from '@react-navigation/native';
+import { ActivityManager } from "../services/activityManager";
+
+function ActivitySection() {
+    const [activityData, setActivityData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const activityManager = new ActivityManager();
+
+    useFocusEffect(
+        useCallback(() => {
+            let isActive = true;
+
+            async function getNoteData() {
+                try {
+                    const result = await activityManager.getActivity();
+                    if (isActive) {
+                        setActivityData(result);
+                    }
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    if (isActive) {
+                        setLoading(false);
+                    }
+                }
+            }
+            getNoteData();
+
+            return () => {
+                isActive = false;
+            };
+        }, [])
+    );
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />; // placeholder while loading
+    }
+    // let activityData = [
+    //     ['Run', '105', 'Intense'],
+    //     ['Shopping', '', ''],
+    //     ['Cleaning', '', '']
+    // ];
+
+    return (
+        <>
+            <View style={[styles.activityContainer, globalStyles.sectionMargin]}>
+                <Text style={globalStyles.sectionText}>Activity</Text>
+                <View style={styles.innerContainer}>
+                    <View style={{ width: '100%' }}>
+                        {activityData[0] == '' ? null : (
+                            activityData.map((item, index) => (
+                            // <TableRow key={index} label={item[0]} time={item[1]} level={item[2]} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
+                            <TableRow key={index} label={item} time={''} level={''} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
+                        )))}
+                    </View>
+                    <View style={{ marginTop: 8 }}>
+                        <Link href="/enter-activity" asChild>
+                            <Button title='Add Activity'></Button>
+                        </Link>
+                    </View>
+                </View>
+            </View>
+        </>
+    );
+}
+
+export default ActivitySection;
+
+const styles = StyleSheet.create({
+    activityContainer: {
+        width: '100%',
+        paddingLeft: 24,
+        paddingRight: 24,
+    },
+    innerContainer: {
+        paddingLeft: 8,
+        paddingRight: 8,
+        marginTop: 24,
+        display: 'flex',
+        alignItems: 'center',
+    },
+    even: {
+        backgroundColor: 'grey',
+    },
+    odd: {
+        backgroundColor: colors.background,
+    }
+});
