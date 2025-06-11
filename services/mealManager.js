@@ -1,6 +1,7 @@
 import { Manager } from "./manager";
 
 export class MealManager extends Manager {
+    CONSOLE_LOG = true;
     constructor() {
         super();
     }

@@ -3,8 +3,8 @@ import Papa from 'papaparse';
 
 export class Manager {
     //#region Constants
-            CONSOLE_LOG = false;
-        FILE_STATUSES = {
+    CONSOLE_LOG = false;
+    FILE_STATUSES = {
         bothExist: 2,//both the file and the row for today exist
         oneExist: 1,//only the file exists
         noneExist: 0//the file does not exist
@@ -23,7 +23,7 @@ export class Manager {
     }
     CSV_HEADER = `Daily Tracker,,,,,,,,,,
     Date,Down,Wake,Nap,Activity,Breakfast,Lunch,Dinner,Snack,Weight,Notes`;
-        PATH = RNFS.DocumentDirectoryPath + '/daily_tracker_data.csv';
+    PATH = RNFS.DocumentDirectoryPath + '/daily_tracker_data.csv';
     //#endregion
     constructor() {
 
@@ -74,7 +74,7 @@ export class Manager {
         let newRow = this.createEntireRow(dayData);
         console.log("newrow: " + newRow);
 
-        let content = CSV_HEADER + '\n' + newRow;
+        let content = this.CSV_HEADER + '\n' + newRow;
         await RNFS.writeFile(this.PATH, content, 'utf8')
             .then((success) => {
                 if (this.CONSOLE_LOG == true)
@@ -87,11 +87,10 @@ export class Manager {
 
     //must be passed an object
     createEntireRow(day) {
-        if (this.CONSOLE_LOG)
-            console.log("Entered createEntireRow");
         const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');
 
         let csvDate = this.getTodaysDate();
+
         let row;
         try {
             row = [
@@ -107,6 +106,8 @@ export class Manager {
                 day.weight == null ? "" : day.weight,
                 `"${escapeQuotes(day.notes)}"`
             ].join(',');
+            if (this.CONSOLE_LOG)
+                console.log("createEntireRow returns: " + row);
             return row;
         } catch (err) {
             console.log("ERROR: " + err);
@@ -153,7 +154,7 @@ export class Manager {
      */
     async writeFileSeveralRows(input) {
         //first put the header on the rows
-        let content = CSV_HEADER + '\n' + input;
+        let content = this.CSV_HEADER + '\n' + input;
         try {
             await RNFS.writeFile(this.PATH, content, 'utf8');
             console.log("success writing file");
