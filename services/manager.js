@@ -1,4 +1,5 @@
 import RNFS from 'react-native-fs';
+import Share from 'react-native-share';
 import Papa from 'papaparse';
 
 export class Manager {
@@ -160,6 +161,27 @@ export class Manager {
             console.log("success writing file");
         } catch (err) {
             console.log("ERROR: " + err);
+        }
+    }
+
+    async exportCSV() {
+        try {
+            // Prepare share options
+            const shareOptions = {
+                title: 'Export File',
+                url: `file://${this.PATH}`,
+                type: 'text/csv',
+                failOnCancel: false,
+            };
+
+            // Trigger share sheet (includes Files app)
+            await Share.open(shareOptions);
+
+            // Optional cleanup: delete file after share (or keep if needed)
+            // await RNFS.unlink(path);
+        } catch (error) {
+            console.error('Error exporting file:', error);
+            Alert.alert('Export Failed', 'There was a problem exporting the file.');
         }
     }
     //#endregion

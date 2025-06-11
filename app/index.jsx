@@ -7,6 +7,7 @@ import WeightSection from '../components/weight';
 import NoteSection from '../components/notes';
 import { useState } from 'react';
 import SleepSection from '../components/sleep';
+import { Manager } from '../services/manager';
 
 
 export default function Home() {
@@ -14,6 +15,11 @@ export default function Home() {
   let date = new Date;
   let dateText = date.toDateString();
   let formattedDate;
+  let manager = new Manager();
+
+  function handleExport() {
+    manager.exportCSV();
+  }
 
   function formatDate() {
     let dayAbbreviation = dateText.slice(0, 3);
@@ -76,7 +82,7 @@ export default function Home() {
         <NoteSection></NoteSection>
         <View style={[styles.line, {marginBottom: 8}]}></View>
         <View style={{ marginTop: 16, marginBottom: 16 }}>
-            <Button title='Export CSV'></Button>
+            <Button title='Export CSV' onPress={() => {handleExport()}}></Button>
         </View>
       </ScrollView>
       <View style={globalStyles.homeSaver}></View>
