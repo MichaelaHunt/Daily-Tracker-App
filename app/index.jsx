@@ -72,8 +72,8 @@ export default function Home() {
       <ScrollView contentContainerStyle={globalStyles.container}>
         <View style={styles.titleSection}>
           <Text style={globalStyles.titleText}>{formattedDate}</Text>
-          <Link href="/choose-date" asChild>
-            <Text>
+          <Link href="/choose-date" asChild >
+            <Text >
               <FontAwesomeIcon icon={faCalendarDay} size={24}></FontAwesomeIcon>
             </Text>
           </Link>
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // marginRight: "24px",
+    marginRight: 24
   },
 });
