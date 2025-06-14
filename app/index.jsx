@@ -1,3 +1,4 @@
+//#region Imports
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, View, Button, StyleSheet } from 'react-native';
 import MealSection from '../components/meals';
@@ -10,62 +11,24 @@ import { Manager } from '../services/manager';
 import { Link } from 'expo-router';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
-
+import { useEffect, useState } from 'react';
+//#endregion
 
 export default function Home() {
-  //#region date setup
-  let today = new Date;
-  let dateText = today.toDateString();
-  let formattedDate;
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState();
   let manager = new Manager();
+
+  useEffect(() => {
+    let fDate = manager.DATE_MANAGER.formatTitleDate(currentDate);
+
+    setFormattedDate(fDate);
+  }, [currentDate]);
 
   function handleExport() {
     manager.exportCSV();
   }
-
-  function formatDate() {
-    let dayAbbreviation = dateText.slice(0, 3);
-    let remainingDate = dateText.slice(4, 10);
-    let day;
-    switch (dayAbbreviation) {
-      case "Mon":
-        day = "Monday";
-        break;
-      case "Tue":
-        day = "Tuesday";
-        break;
-      case "Wed":
-        day = "Wednesday";
-        break;
-      case "Thu":
-        day = "Thursday";
-        break;
-      case "Fri":
-        day = "Friday";
-        break;
-      case "Sat":
-        day = "Saturday";
-        break;
-      case "Sun":
-        day = "Sunday";
-        break;
-    }
-    let suffix = getSuffix(today.getDate());
-    formattedDate = `${day} ${remainingDate}${suffix}`;
-  }
-
-  function getSuffix(day) {
-    if (day >= 11 && day <= 13) return 'th';
-    switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
-  }
-  //#endregion
-
-  formatDate();
+  
   return (
     <View style={{ justifyContent: 'space-between', flex: 1 }}>
       <View style={globalStyles.statusSaver}></View>

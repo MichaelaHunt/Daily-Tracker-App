@@ -1,6 +1,7 @@
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import Papa from 'papaparse';
+import { DateManager } from './dateManager';
 
 export class Manager {
     //#region Constants
@@ -25,9 +26,10 @@ export class Manager {
     CSV_HEADER = `Daily Tracker,,,,,,,,,,
     Date,Down,Wake,Nap,Activity,Breakfast,Lunch,Dinner,Snack,Weight,Notes`;
     PATH = RNFS.DocumentDirectoryPath + '/daily_tracker_data.csv';
+    DATE_MANAGER;
     //#endregion
     constructor() {
-
+        this.DATE_MANAGER = new DateManager();
     }
     //#region Read
     async getEntireColumn(index) {
@@ -90,7 +92,7 @@ export class Manager {
     createEntireRow(day) {
         const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');
 
-        let csvDate = this.getTodaysDate();
+        let csvDate = this.DATE_MANAGER.getTodaysDate();
 
         let row;
         try {
@@ -203,7 +205,7 @@ export class Manager {
         let lastRow = data[data.length - 1];
         let rowItems = Papa.parse(lastRow, { delimiter: ",", skipEmptyLines: true });
         let columns = rowItems.data[0];
-        if (columns[0] == this.getTodaysDate()) {
+        if (columns[0] == this.DATE_MANAGER.getTodaysDate()) {
             if (this.CONSOLE_LOG == true)
                 console.log("Existing day: True!");
             return true;
@@ -231,12 +233,6 @@ export class Manager {
             return this.FILE_STATUSES.noneExist;
         }
     }
-
-    getTodaysDate() {
-        if (this.CONSOLE_LOG == true)
-            console.log("Entered getTodaysDate");
-        let date = new Date;
-        return date.toLocaleDateString();
-    }
+    
     //#endregion
 }
