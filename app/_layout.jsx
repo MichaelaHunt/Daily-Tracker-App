@@ -13,6 +13,7 @@ export default function RootLayout() {
           <Stack.Screen name="enter-note" options={{ title: 'Enter Note', headerShown: true }} />
           <Stack.Screen name="enter-meal" options={{ title: 'Enter Meal', headerShown: true }} />
           <Stack.Screen name="enter-sleep" options={{ title: 'Enter Sleep', headerShown: true }} />
+          <Stack.Screen name="choose-date" options={{ title: 'Choose Date', headerShown: true }} />
         </Stack>
       </RootSiblingParent>
     </SafeAreaProvider>

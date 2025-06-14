@@ -5,10 +5,11 @@ import ActivitySection from '../components/activity';
 import { globalStyles } from '../styles/globalStyles';
 import WeightSection from '../components/weight';
 import NoteSection from '../components/notes';
-import { useState } from 'react';
 import SleepSection from '../components/sleep';
 import { Manager } from '../services/manager';
-import { Calendar } from '../components/calendar';
+import { Link } from 'expo-router';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
 
 
 export default function Home() {
@@ -69,23 +70,29 @@ export default function Home() {
     <View style={{ justifyContent: 'space-between', flex: 1 }}>
       <View style={globalStyles.statusSaver}></View>
       <ScrollView contentContainerStyle={globalStyles.container}>
-        <Text style={globalStyles.titleText}>{formattedDate}</Text>
-        <StatusBar style="auto" />
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <MealSection></MealSection>
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <ActivitySection></ActivitySection>
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <SleepSection></SleepSection>
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <WeightSection></WeightSection>
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <NoteSection></NoteSection>
-        <View style={[styles.line, {marginBottom: 8}]}></View>
-        <View style={{ marginTop: 16, marginBottom: 16 }}>
-            <Button title='Export CSV' onPress={() => {handleExport()}}></Button>
+        <View style={styles.titleSection}>
+          <Text style={globalStyles.titleText}>{formattedDate}</Text>
+          <Link href="/choose-date" asChild>
+            <Text>
+              <FontAwesomeIcon icon={faCalendarDay} size={24}></FontAwesomeIcon>
+            </Text>
+          </Link>
         </View>
-        <Calendar></Calendar>
+        <StatusBar style="auto" />
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <MealSection></MealSection>
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <ActivitySection></ActivitySection>
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <SleepSection></SleepSection>
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <WeightSection></WeightSection>
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <NoteSection></NoteSection>
+        <View style={[styles.line, { marginBottom: 8 }]}></View>
+        <View style={{ marginTop: 16, marginBottom: 16 }}>
+          <Button title='Export CSV' onPress={() => { handleExport() }}></Button>
+        </View>
       </ScrollView>
       <View style={globalStyles.homeSaver}></View>
     </View>
@@ -98,5 +105,12 @@ const styles = StyleSheet.create({
     borderBottom: 'solid',
     borderColor: '#d9d8da',
     borderWidth: 0.5,
-  }
+  }, 
+  titleSection: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // marginRight: "24px",
+  },
 });

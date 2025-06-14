@@ -9,6 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-native-fontawesome": "^0.3.2",
     "expo": "~53.0.9",
     "expo-dev-client": "~5.1.8",
     "expo-router": "^5.0.6",
@@ -22,6 +27,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
     "react-native-share": "^12.0.11",
+    "react-native-svg": "^15.12.0",
     "react-native-ui-datepicker": "^3.1.2",
     "react-native-web": "^0.20.0"
   },

@@ -1,5 +1,6 @@
 # Goals
-## MVP
+## Next goal:
+- When user clicks on date, bring them to a date page that allows them to pick a date to edit/view data of.
 
 ## later features
 - add icon

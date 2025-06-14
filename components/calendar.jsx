@@ -1,5 +1,5 @@
 import { useState } from  'react';
-import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
+import DateTimePicker, { useDefaultStyles } from 'react-native-ui-datepicker';
 
 export function Calendar() {
   const defaultStyles = useDefaultStyles();
