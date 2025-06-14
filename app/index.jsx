@@ -8,12 +8,13 @@ import NoteSection from '../components/notes';
 import { useState } from 'react';
 import SleepSection from '../components/sleep';
 import { Manager } from '../services/manager';
+import { Calendar } from '../components/calendar';
 
 
 export default function Home() {
   //#region date setup
-  let date = new Date;
-  let dateText = date.toDateString();
+  let today = new Date;
+  let dateText = today.toDateString();
   let formattedDate;
   let manager = new Manager();
 
@@ -48,7 +49,7 @@ export default function Home() {
         day = "Sunday";
         break;
     }
-    let suffix = getSuffix(date.getDate());
+    let suffix = getSuffix(today.getDate());
     formattedDate = `${day} ${remainingDate}${suffix}`;
   }
 
@@ -84,6 +85,7 @@ export default function Home() {
         <View style={{ marginTop: 16, marginBottom: 16 }}>
             <Button title='Export CSV' onPress={() => {handleExport()}}></Button>
         </View>
+        <Calendar></Calendar>
       </ScrollView>
       <View style={globalStyles.homeSaver}></View>
     </View>

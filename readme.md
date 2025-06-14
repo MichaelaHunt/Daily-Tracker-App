@@ -1,6 +1,5 @@
 # Goals
 ## MVP
-- Export CSV
 
 ## later features
 - add icon
