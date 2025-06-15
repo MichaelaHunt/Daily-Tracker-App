@@ -16,6 +16,11 @@ function ChooseDatePage() {
         router.back();
     }
 
+    function handleToday() {
+        setCurrentDate(new Date());
+        router.back();
+    }
+
     function disableFutureDates(date) {
         return dayjs(date).isAfter(dayjs(), 'day');
     };
@@ -30,7 +35,7 @@ function ChooseDatePage() {
                 disabledDates={disableFutureDates}
             />
             <View style={[styles.buttonRow]}>
-                <Button title="Today"></Button>
+                <Button title="Today" onPress={() => { handleToday() }}></Button>
                 <Button title="Submit" onPress={() => { handleSubmit() }}></Button>
             </View>
         </>
