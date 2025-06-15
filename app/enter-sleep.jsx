@@ -1,13 +1,15 @@
 import { Text, View, TextInput, StyleSheet, ActivityIndicator, Button, Switch } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Toast from 'react-native-root-toast';
 import { SleepManager } from '../services/sleepManager';
+import { DateContext } from '../services/DateContext';
 
 
 function EnterSleepPage() {
     const [sleepDown, setSleepDown] = useState();
     const [sleepWake, setSleepWake] = useState();
+    const { currentDate } = useContext(DateContext);
 
     const [napBool, setNapBool] = useState(false);
     const toggleSwitch = () => setNapBool(previousState => !previousState);
@@ -15,7 +17,7 @@ function EnterSleepPage() {
 
     function handleSleepPress() {
         try {
-            sleepManager.setSleep(sleepDown, sleepWake);
+            sleepManager.setSleep(sleepDown, sleepWake, currentDate);
             Toast.show('Saved successfully!', {
                 duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,
@@ -30,7 +32,7 @@ function EnterSleepPage() {
 
     function handleNapPress() {
         try {
-            sleepManager.setNap(napBool);
+            sleepManager.setNap(napBool, currentDate);
             Toast.show('Saved successfully!', {
                 duration: Toast.durations.SHORT,
                 position: Toast.positions.BOTTOM,

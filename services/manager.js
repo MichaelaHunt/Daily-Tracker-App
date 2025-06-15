@@ -2,14 +2,16 @@ import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import Papa from 'papaparse';
 import { DateManager } from './dateManager';
+import dayjs from 'dayjs';
+
 
 export class Manager {
     //#region Constants
     CONSOLE_LOG = false;
     FILE_STATUSES = {
-        bothExist: 2,//both the file and the row for today exist
-        oneExist: 1,//only the file exists
-        noneExist: 0//the file does not exist
+        fileAndRowExist: 2,//both the file and the row exists
+        fileExists: 1,//only the file exists
+        fileMissing: 0//the file does not exist
     }
     DATA_DICTIONARY = {
         down: 1,
@@ -41,6 +43,8 @@ export class Manager {
             parsed.data.forEach(row => {
                 final.push(row[index]);
             });
+            final.shift();
+            final.shift();
             return final;
         } catch (err) {
             console.log("Error: " + err);
@@ -203,36 +207,32 @@ export class Manager {
     /**
      * True if there is an existing row for today
      */
-    async checkForExistingDay() {
-        let data = await this.getCSV();
-        let lastRow = data[data.length - 1];
-        let rowItems = Papa.parse(lastRow, { delimiter: ",", skipEmptyLines: true });
-        let columns = rowItems.data[0];
-        if (columns[0] == this.DATE_MANAGER.getTodaysDate()) {
-            if (this.CONSOLE_LOG == true)
-                console.log("Existing day: True!");
-            return true;
-        } else {
-            if (this.CONSOLE_LOG == true)
-                console.log("Existing day: False!");
-            return false;
-        }
+    async checkForExistingDay(targetDate) {
+        if (this.CONSOLE_LOG == true)
+        console.log("Entered CheckForExistingDate. Date: " + targetDate);
+        let dateColumn = await this.getEntireColumn(0);
+        console.log("DateColumn: " + dateColumn);
+
+        const formattedTarget = dayjs(targetDate).format('M/D/YYYY');
+        const result = dateColumn.some(date => date === formattedTarget);
+        console.log("Exiting CheckForExistingDate. Result: " + result);
+        return result;
     }
     /**
      * Returns a this.FILE_STATUSES.
      */
-    async getFileStatus() {
+    async getFileStatus(date) {
         let exists = await this.checkForExistingFile();
         if (exists) {
-            let existingDay = await this.checkForExistingDay();
+            let existingDay = await this.checkForExistingDay(date);
             if (existingDay) {
-                return this.FILE_STATUSES.bothExist;
+                return this.FILE_STATUSES.fileAndRowExist;
 
             } else {
-                return this.FILE_STATUSES.oneExist;
+                return this.FILE_STATUSES.fileExists;
             }
         } else {
-            return this.FILE_STATUSES.noneExist;
+            return this.FILE_STATUSES.fileMissing;
         }
     }
     

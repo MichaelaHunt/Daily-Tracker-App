@@ -5,11 +5,11 @@ export class WeightManager extends Manager {
         super();
     }
     //#region CRUD
-    async setWeight(weight) {
-        let fileStatus = await this.getFileStatus();
+    async setWeight(weight, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist://read, overwrite, re-write
+            case this.FILE_STATUSES.fileAndRowExist://read, overwrite, re-write
                 data = await this.getLastRow();
                 data.weight = weight;
                 let newTodayRow = this.createEntireRow(data);
@@ -28,24 +28,24 @@ export class WeightManager extends Manager {
                     await this.writeCSV(data);
                 }
                 break;
-            case this.FILE_STATUSES.oneExist://append a new row WORKING
+            case this.FILE_STATUSES.fileExists://append a new row WORKING
                 data = this.createEmptyDayData();
                 data.weight = weight;
                 await this.appendFile(data);
                 break;
-            case this.FILE_STATUSES.noneExist://create a new file WORKING
+            case this.FILE_STATUSES.fileMissing://create a new file WORKING
                 data = this.createEmptyDayData();
                 data.weight = weight;
                 await this.writeCSV(data);
                 break;
         }
     }
-    async getWeight() {
-        let fileStatus = await this.getFileStatus();
+    async getWeight(date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist:
-            case this.FILE_STATUSES.oneExist://there may be data to pull
+            case this.FILE_STATUSES.fileAndRowExist:
+            case this.FILE_STATUSES.fileExists://there may be data to pull
                 let weights = await this.getEntireColumn(this.DATA_DICTIONARY.weight);
                 let lastFilled = 0;
                 for (let i = 0; i < weights.length; i++) {
@@ -62,7 +62,7 @@ export class WeightManager extends Manager {
                     return weights[lastFilled];
                 }
                 break;
-            case this.FILE_STATUSES.noneExist://there is no data to pull
+            case this.FILE_STATUSES.fileMissing://there is no data to pull
                 console.log("returning 0");
                 return "0";
                 break;

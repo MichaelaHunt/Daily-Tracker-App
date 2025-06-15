@@ -5,11 +5,11 @@ export class MealManager extends Manager {
     constructor() {
         super();
     }
-    async setMeal(mealContent, mealName) {
-        let fileStatus = await this.getFileStatus();
+    async setMeal(mealContent, mealName, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist:
+            case this.FILE_STATUSES.fileAndRowExist:
                 data = await this.getLastRow();
                 switch (mealName) {
                     case "Breakfast":
@@ -41,7 +41,7 @@ export class MealManager extends Manager {
                     await this.writeCSV(data);
                 }
                 break;
-            case this.FILE_STATUSES.oneExist:
+            case this.FILE_STATUSES.fileExists:
                 data = this.createEmptyDayData();
                 switch (mealName) {
                     case "Breakfast":
@@ -59,7 +59,7 @@ export class MealManager extends Manager {
                 }
                 await this.appendFile(data);
                 break;
-            case this.FILE_STATUSES.noneExist:
+            case this.FILE_STATUSES.fileMissing:
                 data = this.createEmptyDayData();
                 switch (mealName) {
                     case "Breakfast":
@@ -79,11 +79,11 @@ export class MealManager extends Manager {
                 break;
         }
     }
-    async getMeal(mealNumber) {
-        let fileStatus = await this.getFileStatus();
+    async getMeal(mealNumber, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist:
+            case this.FILE_STATUSES.fileAndRowExist:
                 data = await this.getLastRow();
                 let result = "";
                 switch (mealNumber) {
@@ -101,8 +101,8 @@ export class MealManager extends Manager {
                         break;
                 }
                 return result;
-            case this.FILE_STATUSES.oneExist:
-            case this.FILE_STATUSES.noneExist://there is no data to pull
+            case this.FILE_STATUSES.fileExists:
+            case this.FILE_STATUSES.fileMissing://there is no data to pull
                 return "";
         }
     }

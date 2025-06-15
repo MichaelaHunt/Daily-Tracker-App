@@ -6,11 +6,11 @@ export class SleepManager extends Manager {
         super();
     }
     //#region CRUD
-    async setSleep(sleepStart, sleepWake) {
-        let fileStatus = await this.getFileStatus();
+    async setSleep(sleepStart, sleepWake, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist://overwrite
+            case this.FILE_STATUSES.fileAndRowExist://overwrite
                 try {
                     data = await this.getLastRow();
                     data.sleep_start = sleepStart;
@@ -35,13 +35,13 @@ export class SleepManager extends Manager {
                 }
 
                 break;
-            case this.FILE_STATUSES.oneExist://append
+            case this.FILE_STATUSES.fileExists://append
                 data = this.createEmptyDayData();
                 data.sleep_start = sleepStart;
                 data.sleep_end = sleepWake;
                 await this.appendFile(data);
                 break;
-            case this.FILE_STATUSES.noneExist://create
+            case this.FILE_STATUSES.fileMissing://create
                 data = this.createEmptyDayData();
                 data.sleep_start = sleepStart;
                 data.sleep_end = sleepWake;
@@ -49,11 +49,11 @@ export class SleepManager extends Manager {
                 break;
         }
     }
-    async setNap(nap) {
-        let fileStatus = await this.getFileStatus();
+    async setNap(nap, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist:
+            case this.FILE_STATUSES.fileAndRowExist:
                 data = await this.getLastRow();
                 console.log("start: " + data.sleep_start);
                 console.log("wake: " + data.sleep_end);
@@ -74,12 +74,12 @@ export class SleepManager extends Manager {
                     await this.writeCSV(data);
                 }
                 break;
-            case this.FILE_STATUSES.oneExist:
+            case this.FILE_STATUSES.fileExists:
                 data = this.createEmptyDayData();
                 nap ? data.nap = 'Yes' : data.nap = "No";
                 await this.appendFile(data);
                 break;
-            case this.FILE_STATUSES.noneExist:
+            case this.FILE_STATUSES.fileMissing:
                 data = this.createEmptyDayData();
                 nap ? data.nap = 'Yes' : data.nap = "No";
                 await this.writeCSV(data);
@@ -89,14 +89,14 @@ export class SleepManager extends Manager {
     /**
      * retrieves both sleep and nap data
      */
-    async getSleepAndNap() {
-        let fileStatus = await this.getFileStatus();
+    async getSleepAndNap(date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         let nap = '?';
         let difference = 'TBD';
         let hours = '?';
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist:
+            case this.FILE_STATUSES.fileAndRowExist:
                 data = await this.getLastRow();
 
                 if (data.sleep_start != "" && data.sleep_end != "") {
@@ -114,8 +114,8 @@ export class SleepManager extends Manager {
                 }
                 return result;
                 break;
-            case this.FILE_STATUSES.oneExist:
-            case this.FILE_STATUSES.noneExist:
+            case this.FILE_STATUSES.fileExists:
+            case this.FILE_STATUSES.fileMissing:
             default:
                 result = {
                     hours: hours,

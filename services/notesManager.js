@@ -5,11 +5,11 @@ export class NotesManager extends Manager {
         super();
     }
     //#region CRUD
-    async setNotes(notes) {
-        let fileStatus = await this.getFileStatus();
+    async setNotes(notes, date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist://read, append, re-write
+            case this.FILE_STATUSES.fileAndRowExist://read, append, re-write
                 data = await this.getLastRow();
                 data.notes.push(notes);
 
@@ -31,38 +31,38 @@ export class NotesManager extends Manager {
                     await this.writeCSV(data);
                 }
                 break;
-            case this.FILE_STATUSES.oneExist:
+            case this.FILE_STATUSES.fileExists:
                 data = this.createEmptyDayData();
                 data.notes = notes;
                 await this.appendFile(data);
                 break;
-            case this.FILE_STATUSES.noneExist:
+            case this.FILE_STATUSES.fileMissing:
                 data = this.createEmptyDayData();
                 data.notes = notes;
                 await this.writeCSV(data);
                 break;
         }
     }
-    async getNotes() {
-        let fileStatus = await this.getFileStatus();
+    async getNotes(date) {
+        let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist://read, format
+            case this.FILE_STATUSES.fileAndRowExist://read, format
                 data = await this.getLastRow();
                 let result = String(data.notes).split(',');
                 return result;
                 break;
-            case this.FILE_STATUSES.oneExist:
-            case this.FILE_STATUSES.noneExist:
+            case this.FILE_STATUSES.fileExists:
+            case this.FILE_STATUSES.fileMissing:
                 return [];
                 break;
         }
         return [];
     }
-    async deleteAllNotes() {
-        let fileStatus = await this.getFileStatus();
+    async deleteAllNotes(date) {
+        let fileStatus = await this.getFileStatus(date);
         switch (fileStatus) {
-            case this.FILE_STATUSES.bothExist://delete and re-write
+            case this.FILE_STATUSES.fileAndRowExist://delete and re-write
                 let data = await this.getLastRow();
                 data.notes = [];
     
