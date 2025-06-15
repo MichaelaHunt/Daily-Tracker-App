@@ -218,7 +218,6 @@ export class Manager {
             return false;
         }
     }
-
     /**
      * Returns a this.FILE_STATUSES.
      */

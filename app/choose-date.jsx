@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import DateTimePicker, { useDefaultStyles } from 'react-native-ui-datepicker';
 import { DateContext } from "../services/DateContext";
 import { useRouter } from "expo-router";
+import dayjs from 'dayjs';
 
 function ChooseDatePage() {
     const defaultStyles = useDefaultStyles();
@@ -15,6 +16,10 @@ function ChooseDatePage() {
         router.back();
     }
 
+    function disableFutureDates(date) {
+        return dayjs(date).isAfter(dayjs(), 'day');
+    };
+
     return (
         <>
             <DateTimePicker
@@ -22,6 +27,7 @@ function ChooseDatePage() {
                 date={selected}
                 onChange={({ date }) => setSelected(date)}
                 styles={defaultStyles}
+                disabledDates={disableFutureDates}
             />
             <View style={[styles.buttonRow]}>
                 <Button title="Today"></Button>

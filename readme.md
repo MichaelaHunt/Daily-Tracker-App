@@ -4,7 +4,7 @@
 - Append function should now take in a date and the data
     - First checks to see if the date already has an existing row.
     - If not, create that row and move the dates after down a row
-    - If so, update that row
+    - If so, update that ro
 
 ### Functions to add/alter:
 1. appendFile
