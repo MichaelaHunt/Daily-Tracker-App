@@ -72,10 +72,12 @@ export class Manager {
         return dayData;
     }
 
+    /**
+     * This is for writing a file and row that did not exist.
+     */
     async writeCSV(dayData) {
-        console.log("Entered WriteCSV: " + JSON.stringify(dayData));
+        // console.log("Entered WriteCSV: " + JSON.stringify(dayData));
         let newRow = this.createEntireRow(dayData);
-        console.log("newrow: " + newRow);
 
         let content = this.CSV_HEADER + '\n' + newRow;
         await RNFS.writeFile(this.PATH, content, 'utf8')
@@ -117,6 +119,7 @@ export class Manager {
         }
     }
 
+    //TODO: Make this so that it will update not just the latest row, but any row that already exists. 
     async appendFile(dayData) {
         let newRow = this.createEntireRow(dayData);
         newRow = "\n" + newRow;
