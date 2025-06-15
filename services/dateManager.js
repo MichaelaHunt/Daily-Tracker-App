@@ -11,7 +11,8 @@ export class DateManager {
     formatTitleDate(ogDate) {//Index only
         let dateText = ogDate.toDateString();
         let dayAbbreviation = dateText.slice(0, 3);
-        let remainingDate = dateText.slice(4, 10);
+        let month = dateText.slice(4, 7);
+        let dateNumber = dateText.slice(8, 10);
         let day;
         switch (dayAbbreviation) {
             case "Mon":
@@ -36,8 +37,11 @@ export class DateManager {
                 day = "Sunday";
                 break;
         }
+        if (dateNumber[0] == 0) {
+            dateNumber = dateNumber.replace("0", "");
+        }
         let suffix = this.getSuffix(ogDate.getDate());
-        return `${day} ${remainingDate}${suffix}`;
+        return `${day} ${month} ${dateNumber}${suffix}`;
     }
     getSuffix(day) {//private
         if (day >= 11 && day <= 13) return 'th';
