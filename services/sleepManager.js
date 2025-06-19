@@ -28,24 +28,24 @@ export class SleepManager extends Manager {
                         inputString += newTodayRow;
                         await this.writeFileSeveralRows(inputString);
                     } else {//Overwrite the whole file since it was only today's row anyways
-                        await this.writeCSV(data);
+                        await this.writeCSV(data, date);
                     }
                 } catch (error) {
                     console.log("error: " + error);
                 }
 
                 break;
-            case this.FILE_STATUSES.fileExists://append
+            case this.FILE_STATUSES.fileExists://append TODO: TEST
                 data = this.createEmptyDayData();
                 data.sleep_start = sleepStart;
                 data.sleep_end = sleepWake;
-                await this.appendFile(data);
+                await this.appendFile(data, date);
                 break;
             case this.FILE_STATUSES.fileMissing://create
                 data = this.createEmptyDayData();
                 data.sleep_start = sleepStart;
                 data.sleep_end = sleepWake;
-                await this.writeCSV(data);
+                await this.writeCSV(data, date);
                 break;
         }
     }
@@ -89,43 +89,43 @@ export class SleepManager extends Manager {
     /**
      * retrieves both sleep and nap data
      */
-    async getSleepAndNap(date) {
-        let fileStatus = await this.getFileStatus(date);
-        let data;
-        let nap = '?';
-        let difference = 'TBD';
-        let hours = '?';
-        switch (fileStatus) {
-            case this.FILE_STATUSES.fileAndRowExist:
-                data = await this.getLastRow();
+    // async getSleepAndNap(date) {
+    //     let fileStatus = await this.getFileStatus(date);
+    //     let data;
+    //     let nap = '?';
+    //     let difference = 'TBD';
+    //     let hours = '?';
+    //     switch (fileStatus) {
+    //         case this.FILE_STATUSES.fileAndRowExist:
+    //             data = await this.getLastRow();
 
-                if (data.sleep_start != "" && data.sleep_end != "") {
-                    hours = this.calculateHours(data.sleep_start, data.sleep_end);
-                    difference = this.calculateDifference();
-                }
-                if (data.nap != null) {
-                    nap = data.nap;
-                }
+    //             if (data.sleep_start != "" && data.sleep_end != "") {
+    //                 hours = this.calculateHours(data.sleep_start, data.sleep_end);
+    //                 difference = this.calculateDifference();
+    //             }
+    //             if (data.nap != null) {
+    //                 nap = data.nap;
+    //             }
 
-                let result = {
-                    hours: hours,
-                    difference: difference,
-                    nap: nap,
-                }
-                return result;
-                break;
-            case this.FILE_STATUSES.fileExists:
-            case this.FILE_STATUSES.fileMissing:
-            default:
-                result = {
-                    hours: hours,
-                    difference: difference,
-                    nap: nap
-                }
-                return result;
-                break;
-        }
-    }
+    //             let result = {
+    //                 hours: hours,
+    //                 difference: difference,
+    //                 nap: nap,
+    //             }
+    //             return result;
+    //             break;
+    //         case this.FILE_STATUSES.fileExists:
+    //         case this.FILE_STATUSES.fileMissing:
+    //         default:
+    //             result = {
+    //                 hours: hours,
+    //                 difference: difference,
+    //                 nap: nap
+    //             }
+    //             return result;
+    //             break;
+    //     }
+    // }
     //#endregion 
     //#region HELPERS
     /**

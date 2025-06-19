@@ -34,6 +34,28 @@ export class Manager {
         this.DATE_MANAGER = new DateManager();
     }
     //#region Read
+    async getLastRow() {//Returns data OBJECT
+        let data = await this.getCSV();//string array
+        let rowItems = Papa.parse(data[data.length - 1], { delimiter: ",", skipEmptyLines: true });
+        //rowItems.data[0][0] is the first row first column
+        let lastRow = rowItems.data[0];
+        let obj = {
+            sleep_start: lastRow[this.DATA_DICTIONARY.down],
+            sleep_end: lastRow[this.DATA_DICTIONARY.wake],
+            nap: lastRow[this.DATA_DICTIONARY.nap],
+            activity: [lastRow[this.DATA_DICTIONARY.activity]],
+            breakfast: lastRow[this.DATA_DICTIONARY.breakfast],
+            lunch: lastRow[this.DATA_DICTIONARY.lunch],
+            dinner: lastRow[this.DATA_DICTIONARY.dinner],
+            snack: lastRow[this.DATA_DICTIONARY.snack],
+            weight: lastRow[this.DATA_DICTIONARY.weight],
+            notes: lastRow[this.DATA_DICTIONARY.notes] ? [lastRow[this.DATA_DICTIONARY.notes]] : [],
+        }
+        if (this.CONSOLE_LOG)
+            console.log("exiting getLastRow");
+        return obj;
+    }
+
     async getEntireColumn(index) {
         try {
             const data = await RNFS.readFile(this.PATH, 'utf8');
@@ -79,9 +101,11 @@ export class Manager {
     /**
      * This is for writing a file and row that did not exist.
      */
-    async writeCSV(dayData) {
+    async writeCSV(dayData, inputDate) {
         // console.log("Entered WriteCSV: " + JSON.stringify(dayData));
-        let newRow = this.createEntireRow(dayData);
+        let date = dayjs(inputDate).format("M/D/YYYY");
+        dayData.date = date;
+        let newRow = this.createEntireRowFromObject(dayData, date);
 
         let content = this.CSV_HEADER + '\n' + newRow;
         await RNFS.writeFile(this.PATH, content, 'utf8')
@@ -95,15 +119,12 @@ export class Manager {
     }
 
     //must be passed an object
-    createEntireRow(day) {
-        const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');
-
-        let csvDate = this.DATE_MANAGER.getTodaysDate();
-
+    createEntireRowFromObject(day, date) {
+        const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');//TODO:
         let row;
         try {
             row = [
-                csvDate,
+                date,
                 day.sleep_start,
                 day.sleep_end,
                 day.nap == null ? "" : day.nap,
@@ -123,41 +144,87 @@ export class Manager {
         }
     }
 
-    //TODO: Make this so that it will update not just the latest row, but any row that already exists. 
-    async appendFile(dayData) {
-        let newRow = this.createEntireRow(dayData);
-        newRow = "\n" + newRow;
-        await RNFS.appendFile(this.PATH, newRow, 'utf8')
-            .then((success) => {
-                if (this.CONSOLE_LOG == true)
-                    console.log('FILE Appended!');
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });;
+    createEntireRowFromArray(day) {
+        const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');//TODO:
+        let row;
+        try {
+            row = [
+                day.date,
+                day[this.DATA_DICTIONARY.down],
+                day[this.DATA_DICTIONARY.wake],
+                day[this.DATA_DICTIONARY.nap] == null ? "" : day[this.DATA_DICTIONARY.nap],
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.activity])}"`,
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.breakfast])}"`,
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.lunch])}"`,
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.dinner])}"`,
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.snack])}"`,
+                day[this.DATA_DICTIONARY.weight] == null ? "" : day[this.DATA_DICTIONARY.weight],
+                `"${escapeQuotes(day[this.DATA_DICTIONARY.notes])}"`
+            ].join(',');
+            if (this.CONSOLE_LOG)
+                console.log("createEntireRow returns: " + row);
+            return row;
+        } catch (err) {
+            console.log("ERROR: " + err);
+        }
     }
 
-    async getLastRow() {//Returns data OBJECT
-        let data = await this.getCSV();//string array
-        let rowItems = Papa.parse(data[data.length - 1], { delimiter: ",", skipEmptyLines: true });
-        //rowItems.data[0][0] is the first row first column
-        let lastRow = rowItems.data[0];
-        let obj = {
-            sleep_start: lastRow[this.DATA_DICTIONARY.down],
-            sleep_end: lastRow[this.DATA_DICTIONARY.wake],
-            nap: lastRow[this.DATA_DICTIONARY.nap],
-            activity: [lastRow[this.DATA_DICTIONARY.activity]],
-            breakfast: lastRow[this.DATA_DICTIONARY.breakfast],
-            lunch: lastRow[this.DATA_DICTIONARY.lunch],
-            dinner: lastRow[this.DATA_DICTIONARY.dinner],
-            snack: lastRow[this.DATA_DICTIONARY.snack],
-            weight: lastRow[this.DATA_DICTIONARY.weight],
-            notes: lastRow[this.DATA_DICTIONARY.notes] ? [lastRow[this.DATA_DICTIONARY.notes]] : [],
+    async appendFile(dayData, inputDate) {//TODO:
+        let date = dayjs(inputDate).format('M/D/YYYY');
+        if (date == dayjs(new Date()).format('M/D/YYYY')) {//If the date is today
+            let newRow = this.createEntireRowFromObject(dayData, date);
+            newRow = "\n" + newRow;
+            if (this.CONSOLE_LOG == true)
+                console.log("Date is Today");
+            await RNFS.appendFile(this.PATH, newRow, 'utf8')
+                .then((success) => {
+                    if (this.CONSOLE_LOG == true)
+                        console.log('FILE Appended!');
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });;
         }
-        if (this.CONSOLE_LOG)
-            console.log("exiting getLastRow");
-        return obj;
+        else {//if the date is NOT today
+            try {
+                if (this.CONSOLE_LOG == true)
+                    console.log("Date is not today");
+                let data = await this.getCSV();//string array
+                let rowItems = Papa.parse(data.join('\n'), { delimiter: ",", skipEmptyLines: true });
+                //add the new row
+                console.log("RowItems: " + rowItems.data);
+                rowItems.data.push(
+                    [
+                        date,
+                        dayData.sleep_start,
+                        dayData.sleep_end,
+                        dayData.nap,
+                        dayData.activity,
+                        dayData.breakfast,
+                        dayData.lunch,
+                        dayData.dinner,
+                        dayData.snack,
+                        dayData.weight,
+                        dayData.notes
+                    ]);
+                //TODO: fix the sorting issue. 
+                let sortedArray = rowItems.data.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+                console.log("sorted array: " + sortedArray);
+                //convert to a string 
+                let inputString = '';
+                
+                sortedArray.forEach(row => {
+                    inputString += (`${row}\n`);
+                });
+                await this.writeFileSeveralRows(inputString);
+            } catch (error) {
+                console.log('ERROR: ' + error);
+            }
+
+        }
     }
+
+
     /**
      * Adds header to a string of several rows delimited by \n and writes to file.
      * @param {string} input
@@ -195,6 +262,18 @@ export class Manager {
     }
     //#endregion
     //#region Helpers
+    async getDateIndex(targetDate) {
+        let dateColumn = await this.getEntireColumn(0);
+        let dateIndex;
+        const formattedTarget = dayjs(targetDate).format('M/D/YYYY');
+        dateColumn.forEach((item, index) => {
+            if (item == formattedTarget) {
+                dateIndex = index;
+            }
+        });
+        return dateIndex;
+    }
+
     /**
     * Returns true if the file exists
     */
@@ -209,9 +288,10 @@ export class Manager {
      */
     async checkForExistingDay(targetDate) {
         if (this.CONSOLE_LOG == true)
-        console.log("Entered CheckForExistingDate. Date: " + targetDate);
+            console.log("Entered CheckForExistingDay. Date: " + targetDate);
         let dateColumn = await this.getEntireColumn(0);
-        console.log("DateColumn: " + dateColumn);
+        if (this.CONSOLE_LOG == true)
+            console.log("DateColumn: " + dateColumn);
 
         const formattedTarget = dayjs(targetDate).format('M/D/YYYY');
         const result = dateColumn.some(date => date === formattedTarget);
@@ -235,6 +315,6 @@ export class Manager {
             return this.FILE_STATUSES.fileMissing;
         }
     }
-    
+
     //#endregion
 }
