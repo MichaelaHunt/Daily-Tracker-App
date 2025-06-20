@@ -145,7 +145,7 @@ export class Manager {
     }
 
     createEntireRowFromArray(day) {
-        const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');//TODO:
+        const escapeQuotes = (str = '') => String(str).replace(/"/g, '""');
         let row;
         try {
             row = [
@@ -169,7 +169,7 @@ export class Manager {
         }
     }
 
-    async appendFile(dayData, inputDate) {//TODO:
+    async appendFile(dayData, inputDate) {
         let date = dayjs(inputDate).format('M/D/YYYY');
         if (date == dayjs(new Date()).format('M/D/YYYY')) {//If the date is today
             let newRow = this.createEntireRowFromObject(dayData, date);
@@ -207,10 +207,14 @@ export class Manager {
                         dayData.weight,
                         dayData.notes
                     ]);
-                //TODO: fix the sorting issue. 
-                let sortedArray = rowItems.data.sort((a, b) => new Date(a[0]) - new Date(b[0]));
-                console.log("sorted array: " + sortedArray);
-                //convert to a string 
+                let sortedArray = rowItems.data.sort((a, b) => {
+                const parseDate = (str) => {
+                    const [month, day, year] = str.trim().split('/').map(Number);
+                    return new Date(year, month - 1, day);
+                };
+                return parseDate(a[0]) - parseDate(b[0]);
+                });
+                
                 let inputString = '';
                 
                 sortedArray.forEach(row => {
