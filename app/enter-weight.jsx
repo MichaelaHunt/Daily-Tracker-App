@@ -1,19 +1,21 @@
 import { Text, View, TextInput, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { WeightManager } from '../services/weightManager';
 import Toast from 'react-native-root-toast';
+import { DateContext } from '../services/DateContext';
 
 export default function EnterWeightPage() {
     const [placeholder, setPlaceholder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [inputWeight, setinputWeight] = useState(0);
+    const { currentDate } = useContext(DateContext);
     const weightManager = new WeightManager();
     
     useEffect(() => {
         async function getPlaceholder() {
             try {
-                let result = await weightManager.getWeight();
+                let result = await weightManager.getWeight(currentDate);
                 setPlaceholder(result); // store result in state
             } catch (error) {
                 console.error(error); // handle any errors
@@ -24,16 +26,12 @@ export default function EnterWeightPage() {
         getPlaceholder();
     }, []);
 
-    // useEffect(() => {
-    //     console.log(weight);
-    // }, [weight]);
-
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />; // placeholder while loading
     }
 
     function handleButtonPress() {
-        weightManager.setWeight(inputWeight);
+        weightManager.setWeight(inputWeight, currentDate);
         Toast.show('Saved successfully!', {
                         duration: Toast.durations.SHORT,
                         position: Toast.positions.BOTTOM,

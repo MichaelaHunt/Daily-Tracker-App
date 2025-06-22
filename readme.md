@@ -43,3 +43,5 @@ eas build --profile development --platform ios
 ```
 npx expo start
 ```
+**Link to calendar documentation**
+https://github.com/farhoudshapouran/react-native-ui-datepicker 

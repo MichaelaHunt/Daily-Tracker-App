@@ -17,18 +17,19 @@ function ActivitySection() {
             let isActive = true;
 
             async function getNoteData() {
-                try {
-                    const result = await activityManager.getActivity();
-                    if (isActive) {
-                        setActivityData(result);
-                    }
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    if (isActive) {
-                        setLoading(false);
-                    }
-                }
+                // try {
+                //     const result = await activityManager.getActivity();
+                //     if (isActive) {
+                //         setActivityData(result);
+                //     }
+                // } catch (error) {
+                //     console.error(error);
+                // } finally {
+                //     if (isActive) {
+                //         setLoading(false);
+                //     }
+                // }
+                setLoading(false);
             }
             getNoteData();
 

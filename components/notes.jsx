@@ -15,18 +15,19 @@ function NoteSection() {
             let isActive = true;
 
             async function getNoteData() {
-                try {
-                    const result = await notesManager.getNotes();
-                    if (isActive) {
-                        setNoteList(result);
-                    }
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    if (isActive) {
-                        setLoading(false);
-                    }
-                }
+                // try {
+                //     const result = await notesManager.getNotes();
+                //     if (isActive) {
+                //         setNoteList(result);
+                //     }
+                // } catch (error) {
+                //     console.error(error);
+                // } finally {
+                //     if (isActive) {
+                //         setLoading(false);
+                //     }
+                // }
+                setLoading(false);
             }
 
             getNoteData();

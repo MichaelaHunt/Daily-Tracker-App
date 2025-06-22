@@ -10,36 +10,47 @@ export class NotesManager extends Manager {
         let data;
         switch (fileStatus) {
             case this.FILE_STATUSES.fileAndRowExist://read, append, re-write
-                data = await this.getLastRow();
-                data.notes.push(notes);
-
-                let todayNewRow = this.createEntireRow(data);
-
+                if (this.CONSOLE_LOG == true)
+                    console.log("Set Notes - Entered File and Row Exist case");//ISSUE: 2nd time adds column not item to array.
+                data = await this.getDatesRow(date);
+                console.log("Data: " + data + ", Notes: " + notes);
+                let dataObject = {
+                    sleep_start: data[this.DATA_DICTIONARY.down],
+                    sleep_end: data[this.DATA_DICTIONARY.wake],
+                    nap: data[this.DATA_DICTIONARY.nap],
+                    activity: [data[this.DATA_DICTIONARY.activity]],
+                    breakfast: data[this.DATA_DICTIONARY.breakfast],
+                    lunch: data[this.DATA_DICTIONARY.lunch],
+                    dinner: data[this.DATA_DICTIONARY.dinner],
+                    snack: data[this.DATA_DICTIONARY.snack],
+                    weight: data[this.DATA_DICTIONARY.weight],
+                    notes: data[this.DATA_DICTIONARY.notes] ? [data[this.DATA_DICTIONARY.notes]] : [],
+                }
+                dataObject.notes.push(notes);
                 let fullContents = await this.getCSV();
 
                 if (fullContents.length > 1) {
-                    console.log("path1");
-                    fullContents.pop();
-                    let inputString = '';
-                    fullContents.forEach(row => {
-                        inputString += (`${row}\n`);
-                    });
-                    inputString += todayNewRow;
-                    await this.writeFileSeveralRows(inputString);
-                } else {
-                    console.log("Data.notes: " + data.notes);
-                    await this.writeCSV(data);
+                    if (this.CONSOLE_LOG == true)
+                    console.log("Notes - Overwriting the file row");
+                    await this.overwriteFileRow(dataObject, date);
+                } else {//Overwrite the whole file since it was only today's row anyways
+                    console.log("Notes - Overwriting the whole file");
+                    await this.writeCSV(dataObject, date);
                 }
                 break;
             case this.FILE_STATUSES.fileExists:
+                if (this.CONSOLE_LOG == true)
+                    console.log("Set Notes - Entered File Exists case");
                 data = this.createEmptyDayData();
                 data.notes = notes;
-                await this.appendFile(data);
+                await this.appendFile(data, date);
                 break;
             case this.FILE_STATUSES.fileMissing:
+                if (this.CONSOLE_LOG == true)
+                    console.log("Set Notes - Entered File Missing case");
                 data = this.createEmptyDayData();
                 data.notes = notes;
-                await this.writeCSV(data);
+                await this.writeCSV(data, date);
                 break;
         }
     }
@@ -65,11 +76,11 @@ export class NotesManager extends Manager {
             case this.FILE_STATUSES.fileAndRowExist://delete and re-write
                 let data = await this.getLastRow();
                 data.notes = [];
-    
+
                 let todayNewRow = this.createEntireRow(data);
-    
+
                 let fullContents = await this.getCSV();
-    
+
                 if (fullContents.length > 1) {
                     fullContents.pop();
                     let inputString = '';
