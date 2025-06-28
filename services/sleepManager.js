@@ -186,25 +186,25 @@ export class SleepManager extends Manager {
     
     async calculateDifference() {//TODO:
         let difference = 'TBD';
-        let data = await this.getCSV();
-        let csvString = data.join("\n");
-        let rowItems = Papa.parse(csvString, { delimiter: ",", skipEmptyLines: true });
-        if (rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.down] != "" && rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.wake] != "") {
-            if (rowItems.data.length > 1 && this.subsequentDates(rowItems.data[rowItems.data.length - 2][0], rowItems.data[rowItems.data.length - 1][0])) {
-                let [firstRowStartH, firstRowStartM] = rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.down].split(":");
-                let [firstRowEndH, firstRowEndM] = rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.wake].split(":");
-                let [lastRowStartH, lastRowStartM] = rowItems.data[rowItems.data.length - 1][this.DATA_DICTIONARY.down].split(":");
-                let [lastRowEndH, lastRowEndM] = rowItems.data[rowItems.data.length - 1][this.DATA_DICTIONARY.wake].split(":");
+        // let data = await this.getCSV();
+        // let csvString = data.join("\n");
+        // let rowItems = Papa.parse(csvString, { delimiter: ",", skipEmptyLines: true });
+        // if (rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.down] != "" && rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.wake] != "") {
+        //     if (rowItems.data.length > 1 && this.subsequentDates(rowItems.data[rowItems.data.length - 2][0], rowItems.data[rowItems.data.length - 1][0])) {
+        //         let [firstRowStartH, firstRowStartM] = rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.down].split(":");
+        //         let [firstRowEndH, firstRowEndM] = rowItems.data[rowItems.data.length - 2][this.DATA_DICTIONARY.wake].split(":");
+        //         let [lastRowStartH, lastRowStartM] = rowItems.data[rowItems.data.length - 1][this.DATA_DICTIONARY.down].split(":");
+        //         let [lastRowEndH, lastRowEndM] = rowItems.data[rowItems.data.length - 1][this.DATA_DICTIONARY.wake].split(":");
         
-                let firstRowStart = Number(firstRowStartH) * 60 + Number(firstRowStartM);
-                let firstRowEnd = Number(firstRowEndH) * 60 + Number(firstRowEndM);
-                let lastRowStart = Number(lastRowStartH) * 60 + Number(lastRowStartM);
-                let lastRowEnd = Number(lastRowEndH) * 60 + Number(lastRowEndM);
-                let startDifference = Math.abs(firstRowStart - lastRowStart);
-                let endDifference = Math.abs(firstRowEnd - lastRowEnd);
-                difference = startDifference + endDifference;
-            }
-        }
+        //         let firstRowStart = Number(firstRowStartH) * 60 + Number(firstRowStartM);
+        //         let firstRowEnd = Number(firstRowEndH) * 60 + Number(firstRowEndM);
+        //         let lastRowStart = Number(lastRowStartH) * 60 + Number(lastRowStartM);
+        //         let lastRowEnd = Number(lastRowEndH) * 60 + Number(lastRowEndM);
+        //         let startDifference = Math.abs(firstRowStart - lastRowStart);
+        //         let endDifference = Math.abs(firstRowEnd - lastRowEnd);
+        //         difference = startDifference + endDifference;
+        //     }
+        // }
         return difference === 'TBD' ? 'TBD' : `${difference}min`;
     }
     

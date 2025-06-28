@@ -56,8 +56,10 @@ export class Manager {
         // return obj;
     }
 
+    
     async getDatesRow(inputDate) {
         let date = dayjs(inputDate).format('M/D/YYYY');
+        console.log("getDatesRow date was formatted as: " + date);
         //get all rows
         try {
             let data = await RNFS.readFile(this.PATH, 'utf8');
@@ -66,8 +68,20 @@ export class Manager {
             //return the row with index [0] that matches our date
             const match = rows.data.find(row => row[0] === date);
             if (this.CONSOLE_LOG)
-            console.log("Match's contents: " + match);
-            return match;
+                console.log("Match's contents: " + match);
+            let matchObj = {
+                sleep_end: match[this.DATA_DICTIONARY.down] || "",
+                sleep_start: match[this.DATA_DICTIONARY.wake] || "",
+                nap: match[this.DATA_DICTIONARY.nap] || null,
+                activity: match[this.DATA_DICTIONARY.activity] || [],
+                breakfast: match[this.DATA_DICTIONARY.breakfast] || "",
+                lunch: match[this.DATA_DICTIONARY.lunch] || "",
+                dinner: match[this.DATA_DICTIONARY.dinner] || "",
+                snack: match[this.DATA_DICTIONARY.snack] || "",
+                weight: match[this.DATA_DICTIONARY.weight] || null,
+                notes: match[this.DATA_DICTIONARY.notes] || [],
+            }
+            return matchObj;
         } catch (error) {
             console.log("Error: " + error);
         }
@@ -203,15 +217,15 @@ export class Manager {
                     dayData.sleep_start,
                     dayData.sleep_end,
                     dayData.nap,
-                    `"${dayData.activity}"`,
+                    dayData.activity,
                     dayData.breakfast,
                     dayData.lunch,
                     dayData.dinner,
                     dayData.snack,
                     dayData.weight,
-                    `"${dayData.notes}"`
+                    dayData.notes
                 ]);
-                console.log("Rows.data: " + rows.data[rows.data.length - 1]);
+            console.log("Rows.data: " + rows.data[rows.data.length - 1]);
             let sortedArray = rows.data.sort((a, b) => {
                 const parseDate = (str) => {
                     const [month, day, year] = str.trim().split('/').map(Number);
@@ -223,7 +237,7 @@ export class Manager {
             let inputString = '';
 
             sortedArray.forEach(row => {
-                inputString += (`${row}\n`);
+                inputString += (`${row[0]},${row[1]},${row[2]},${row[3]},"${row[4]}","${row[5]}","${row[6]}","${row[7]}","${row[8]}",${row[9]},"${row[10]}"\n`);
             });
             await this.writeFileSeveralRows(inputString);
         } catch (error) {
@@ -253,9 +267,8 @@ export class Manager {
                 if (this.CONSOLE_LOG == true)
                     console.log("Date is not today");
                 let data = await this.getCSV();//string array
-                let rowItems = Papa.parse(data.join('\n'), { delimiter: ",", skipEmptyLines: true });
+                let rowItems = Papa.parse(data.join('\n'), { delimiter: ",", skipEmptyLines: true, quoteChar: "'" });
                 //add the new row
-                console.log("RowItems: " + rowItems.data);
                 rowItems.data.push(
                     [
                         date,

@@ -13,7 +13,6 @@ export class NotesManager extends Manager {
                 if (this.CONSOLE_LOG == true)
                     console.log("Set Notes - Entered File and Row Exist case");//ISSUE: 2nd time adds column not item to array.
                 data = await this.getDatesRow(date);
-                console.log("Data: " + data + ", Notes: " + notes);
                 let dataObject = {
                     sleep_start: data[this.DATA_DICTIONARY.down],
                     sleep_end: data[this.DATA_DICTIONARY.wake],
@@ -59,14 +58,15 @@ export class NotesManager extends Manager {
         let data;
         switch (fileStatus) {
             case this.FILE_STATUSES.fileAndRowExist://read, format
-                data = await this.getLastRow();
+                data = await this.getDatesRow(date);
+                if (data.notes == []) {
+                    return [];
+                }
                 let result = String(data.notes).split(',');
                 return result;
-                break;
             case this.FILE_STATUSES.fileExists:
             case this.FILE_STATUSES.fileMissing:
                 return [];
-                break;
         }
         return [];
     }
