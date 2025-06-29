@@ -21,7 +21,7 @@ function EnterActivityPage() {
     }
 
     function deleteButtonPress() {
-        activityManager.deleteAllActivity();
+        activityManager.deleteAllActivity(currentDate);
         Toast.show('Deleted successfully!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,

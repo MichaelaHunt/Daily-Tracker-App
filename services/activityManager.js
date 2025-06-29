@@ -1,4 +1,4 @@
-import {Manager} from "./manager";
+import { Manager } from "./manager";
 
 export class ActivityManager extends Manager {
 
@@ -20,7 +20,7 @@ export class ActivityManager extends Manager {
 
                 if (fullContents.length > 1) {
                     if (this.CONSOLE_LOG == true)
-                    console.log("Activity - Overwriting the file row");
+                        console.log("Activity - Overwriting the file row");
                     await this.overwriteFileRow(data, date);
                 } else {//Overwrite the whole file since it was only today's row anyways
                     console.log("Activity - Overwriting the whole file");
@@ -62,33 +62,27 @@ export class ActivityManager extends Manager {
         return [];
     }
 
-    async deleteAllActivity(date) {
-        let fileStatus = await this.getFileStatus(date);
-        switch (fileStatus) {
-            case this.FILE_STATUSES.fileAndRowExist://delete and re-write
-                let data = await this.getLastRow();
-                data.activity = [];
+    async deleteAllActivity(date) {//TODO:
+        // let fileStatus = await this.getFileStatus(date);
+        // switch (fileStatus) {
+        //     case this.FILE_STATUSES.fileAndRowExist://delete and re-write
+        //         data = await this.getDatesRow(date);
+        //         data.activity = [];
 
-                let todayNewRow = this.createEntireRow(data);
+        //         let fullContents = await this.getCSV();
 
-                let fullContents = await this.getCSV();
-
-                if (fullContents.length > 1) {
-                    fullContents.pop();
-                    let inputString = '';
-                    fullContents.forEach(row => {
-                        inputString += (`${row}\n`);
-                    });
-                    inputString += todayNewRow;
-                    await this.writeFileSeveralRows(inputString);
-                } else {
-                    await this.writeCSV(data);
-                }
-                break;
-            default:
-                break;
-        }
-        if (CONSOLE_LOG)
-            console.log("Leaving DeleteAllNotes");
+        //         if (fullContents.length > 1) {
+        //             if (this.CONSOLE_LOG == true)
+        //                 console.log("Activity - Overwriting the file row");
+        //             await this.overwriteFileRow(data, date);
+        //         } else {
+        //             await this.writeCSV(data, date);
+        //         }
+        //         break;
+        //     default:
+        //         break;
+        // }
+        // if (CONSOLE_LOG)
+        //     console.log("Leaving DeleteAllNotes");
     }
 }

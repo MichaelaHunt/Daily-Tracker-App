@@ -59,33 +59,33 @@ export class NotesManager extends Manager {
         return [];
     }
     async deleteAllNotes(date) {
-        let fileStatus = await this.getFileStatus(date);
-        switch (fileStatus) {
-            case this.FILE_STATUSES.fileAndRowExist://delete and re-write
-                let data = await this.getLastRow();
-                data.notes = [];
+        // let fileStatus = await this.getFileStatus(date);
+        // switch (fileStatus) {
+        //     case this.FILE_STATUSES.fileAndRowExist://delete and re-write
+        //         let data = await this.getLastRow();
+        //         data.notes = [];
 
-                let todayNewRow = this.createEntireRow(data);
+        //         let todayNewRow = this.createEntireRow(data);
 
-                let fullContents = await this.getCSV();
+        //         let fullContents = await this.getCSV();
 
-                if (fullContents.length > 1) {
-                    fullContents.pop();
-                    let inputString = '';
-                    fullContents.forEach(row => {
-                        inputString += (`${row}\n`);
-                    });
-                    inputString += todayNewRow;
-                    await this.writeFileSeveralRows(inputString);
-                } else {
-                    await this.writeCSV(data);
-                }
-                break;
-            default:
-                break;
-        }
-        if (CONSOLE_LOG)
-            console.log("Leaving DeleteAllNotes");
+        //         if (fullContents.length > 1) {
+        //             fullContents.pop();
+        //             let inputString = '';
+        //             fullContents.forEach(row => {
+        //                 inputString += (`${row}\n`);
+        //             });
+        //             inputString += todayNewRow;
+        //             await this.writeFileSeveralRows(inputString);
+        //         } else {
+        //             await this.writeCSV(data);
+        //         }
+        //         break;
+        //     default:
+        //         break;
+        // }
+        // if (CONSOLE_LOG)
+        //     console.log("Leaving DeleteAllNotes");
     }
     //#endregion
 }
