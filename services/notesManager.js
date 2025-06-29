@@ -11,30 +11,18 @@ export class NotesManager extends Manager {
         switch (fileStatus) {
             case this.FILE_STATUSES.fileAndRowExist://read, append, re-write
                 if (this.CONSOLE_LOG == true)
-                    console.log("Set Notes - Entered File and Row Exist case");//ISSUE: 2nd time adds column not item to array.
+                    console.log("Set Notes - Entered File and Row Exist case");
                 data = await this.getDatesRow(date);
-                let dataObject = {
-                    sleep_start: data[this.DATA_DICTIONARY.down],
-                    sleep_end: data[this.DATA_DICTIONARY.wake],
-                    nap: data[this.DATA_DICTIONARY.nap],
-                    activity: [data[this.DATA_DICTIONARY.activity]],
-                    breakfast: data[this.DATA_DICTIONARY.breakfast],
-                    lunch: data[this.DATA_DICTIONARY.lunch],
-                    dinner: data[this.DATA_DICTIONARY.dinner],
-                    snack: data[this.DATA_DICTIONARY.snack],
-                    weight: data[this.DATA_DICTIONARY.weight],
-                    notes: data[this.DATA_DICTIONARY.notes] ? [data[this.DATA_DICTIONARY.notes]] : [],
-                }
-                dataObject.notes.push(notes);
+                data.notes.push(notes);
                 let fullContents = await this.getCSV();
 
                 if (fullContents.length > 1) {
                     if (this.CONSOLE_LOG == true)
                     console.log("Notes - Overwriting the file row");
-                    await this.overwriteFileRow(dataObject, date);
+                    await this.overwriteFileRow(data, date);
                 } else {//Overwrite the whole file since it was only today's row anyways
                     console.log("Notes - Overwriting the whole file");
-                    await this.writeCSV(dataObject, date);
+                    await this.writeCSV(data, date);
                 }
                 break;
             case this.FILE_STATUSES.fileExists:

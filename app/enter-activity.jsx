@@ -1,15 +1,17 @@
 import { Text, View, TextInput, StyleSheet, Button } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {ActivityManager} from '../services/activityManager';
 import Toast from 'react-native-root-toast';
+import { DateContext } from '../services/DateContext';
 
 function EnterActivityPage() {
     const [inputActivity, setInputActivity] = useState();
     const activityManager = new ActivityManager();
+    const { currentDate } = useContext(DateContext);
 
     function handlePress() {
-        activityManager.setActivity(inputActivity);
+        activityManager.setActivity(inputActivity, currentDate);
         Toast.show('Saved successfully!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,

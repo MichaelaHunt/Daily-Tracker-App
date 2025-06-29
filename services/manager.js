@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 export class Manager {
     //#region Constants
-    CONSOLE_LOG = true;
+    CONSOLE_LOG = false;
     FILE_STATUSES = {
         fileAndRowExist: 2,//both the file and the row exists
         fileExists: 1,//only the file exists
@@ -59,7 +59,6 @@ export class Manager {
     
     async getDatesRow(inputDate) {
         let date = dayjs(inputDate).format('M/D/YYYY');
-        console.log("getDatesRow date was formatted as: " + date);
         //get all rows
         try {
             let data = await RNFS.readFile(this.PATH, 'utf8');
@@ -72,14 +71,14 @@ export class Manager {
             let matchObj = {
                 sleep_end: match[this.DATA_DICTIONARY.down] || "",
                 sleep_start: match[this.DATA_DICTIONARY.wake] || "",
-                nap: match[this.DATA_DICTIONARY.nap] || null,
-                activity: match[this.DATA_DICTIONARY.activity] || [],
+                nap: match[this.DATA_DICTIONARY.nap] || "",
+                activity: match[this.DATA_DICTIONARY.activity] ? [match[this.DATA_DICTIONARY.activity]] : [],
                 breakfast: match[this.DATA_DICTIONARY.breakfast] || "",
                 lunch: match[this.DATA_DICTIONARY.lunch] || "",
                 dinner: match[this.DATA_DICTIONARY.dinner] || "",
                 snack: match[this.DATA_DICTIONARY.snack] || "",
-                weight: match[this.DATA_DICTIONARY.weight] || null,
-                notes: match[this.DATA_DICTIONARY.notes] || [],
+                weight: match[this.DATA_DICTIONARY.weight] || "",
+                notes: match[this.DATA_DICTIONARY.notes] ? [match[this.DATA_DICTIONARY.notes]] : [],
             }
             return matchObj;
         } catch (error) {
@@ -412,8 +411,8 @@ export class Manager {
         if (this.CONSOLE_LOG == true)
             console.log("Entered CheckForExistingDay. Date: " + targetDate);
         let dateColumn = await this.getEntireColumn(0);
-        if (this.CONSOLE_LOG == true)
-            console.log("DateColumn: " + dateColumn);
+        // if (this.CONSOLE_LOG == true)
+        //     console.log("DateColumn: " + dateColumn);
 
         const formattedTarget = dayjs(targetDate).format('M/D/YYYY');
         const result = dateColumn.some(date => date === formattedTarget);

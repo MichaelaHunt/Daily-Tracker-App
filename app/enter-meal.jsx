@@ -1,9 +1,10 @@
 import { Text, View, TextInput, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { globalStyles } from '../styles/globalStyles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Toast from 'react-native-root-toast';
 import {MealManager} from '../services/mealManager';
+import { DateContext } from '../services/DateContext';
 
 
 function EnterMealPage() {
@@ -11,12 +12,13 @@ function EnterMealPage() {
     const [inputMeal, setInputMeal] = useState();
     const [previous, setPrevious] = useState("");
     const [loading, setLoading] = useState(true);
+    const { currentDate } = useContext(DateContext);
     const mealManager = new MealManager();
 
     useEffect(() => {
         async function getValue() {
             try {
-                let result = await mealManager.getMeal(mealNumber);
+                let result = await mealManager.getMeal(mealNumber, currentDate);
                 setPrevious(result);
             } catch (err) {
                 console.error(err);
@@ -32,8 +34,8 @@ function EnterMealPage() {
     }
 
     function handlePress() {
-        mealManager.setMeal(inputMeal, label);
-        Toast.show('Saved successfully!', {
+        mealManager.setMeal(inputMeal, label, currentDate);
+        Toast.show('Saved!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,
             backgroundColor: 'green',
