@@ -9,63 +9,49 @@ export class WeightManager extends Manager {
         let fileStatus = await this.getFileStatus(date);
         let data;
         switch (fileStatus) {
-            case this.FILE_STATUSES.fileAndRowExist://read, overwrite, re-write
-                data = await this.getLastRow();
-                data.weight = weight;
-                let newTodayRow = this.createEntireRow(data);
-    
-                let fullContents = await this.getCSV();
-    
-                if (fullContents.length > 1) {
-                    fullContents.pop();
-                    let inputString = '';
-                    fullContents.forEach(row => {
-                        inputString += (`${row}\n`);
-                    });
-                    inputString += newTodayRow;
-                    await this.writeFileSeveralRows(inputString);
-                } else {//Overwrite the whole file since it was only today's row anyways
-                    await this.writeCSV(data);
+            case this.FILE_STATUSES.fileAndRowExist://overwrite
+                try {
+                    data = await this.getDatesRow(date);
+                    data.weight = weight;
+                    let fullContents = await this.getCSV();
+
+                    if (fullContents.length > 1) {
+                        await this.overwriteFileRow(data, date);
+                    } else {//Overwrite the whole file since it was only today's row anyways
+                        await this.writeCSV(data, date);
+                    }
+                } catch (error) {
+                    console.log("error: " + error);
                 }
                 break;
-            case this.FILE_STATUSES.fileExists://append a new row WORKING
+            case this.FILE_STATUSES.fileExists://append
                 data = this.createEmptyDayData();
                 data.weight = weight;
-                await this.appendFile(data);
+                await this.appendFile(data, date);
                 break;
-            case this.FILE_STATUSES.fileMissing://create a new file WORKING
+            case this.FILE_STATUSES.fileMissing://create
                 data = this.createEmptyDayData();
                 data.weight = weight;
-                await this.writeCSV(data);
+                await this.writeCSV(data, date);
                 break;
         }
     }
     async getWeight(date) {
         let fileStatus = await this.getFileStatus(date);
-        let data;
-        switch (fileStatus) {
-            case this.FILE_STATUSES.fileAndRowExist:
-            case this.FILE_STATUSES.fileExists://there may be data to pull
-                let weights = await this.getEntireColumn(this.DATA_DICTIONARY.weight);
-                let lastFilled = 0;
-                for (let i = 0; i < weights.length; i++) {
-                    if (weights[i] != "" || "Weight") {
-                        lastFilled = i;
-                    }
-                }
-                if (lastFilled == 0) {
-                    console.log("returning 0");
-                    return "0";
-                } else {
-                    console.log("last filled: " + lastFilled);
-                    console.log("returning: " + weights[lastFilled]);
-                    return weights[lastFilled];
-                }
-                break;
-            case this.FILE_STATUSES.fileMissing://there is no data to pull
-                console.log("returning 0");
-                return "0";
-                break;
+        if (fileStatus == this.FILE_STATUSES.fileMissing) {
+            return "0";
+        }
+        let weights = await this.getEntireColumn(this.DATA_DICTIONARY.weight);
+        let lastFilled = -1;
+        for (let i = 0; i < weights.length; i++) {
+            if (weights[i] != "" || "Weight") {
+                lastFilled = i;
+            }
+        }
+        if (lastFilled == -1) {
+            return "0";
+        } else {
+            return weights[lastFilled];
         }
     }
     //#endregion

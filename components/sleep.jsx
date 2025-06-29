@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { globalStyles } from '../styles/globalStyles';
 import { Link } from 'expo-router';
 import { colors } from '../styles/colors';
 import { useFocusEffect } from '@react-navigation/native';
 import { SleepManager } from '../services/sleepManager';
+import { DateContext } from '../services/DateContext';
 
 function SleepSection() {
     const [napText, setNapText] = useState('Short');
     const [sleepText, setSleepText] = useState('9hrs');
     const [differenceText, setDifferenceText] = useState("30mins");
+    const { currentDate } = useContext(DateContext);
 
     const [loading, setLoading] = useState(true);
     const sleepManager = new SleepManager();
@@ -20,7 +22,7 @@ function SleepSection() {
 
             async function getSleepData() {
                 try {
-                    const result = await sleepManager.getSleepAndNap();
+                    const result = await sleepManager.getSleepAndNap(currentDate);
                     if (isActive) {
                         setNapText(result.nap);
                         setSleepText(result.hours);
@@ -40,7 +42,7 @@ function SleepSection() {
             return () => {
                 isActive = false; // Prevent state update if component is unfocused
             };
-        }, [])
+        }, [currentDate])
     );
 
     if (loading) {

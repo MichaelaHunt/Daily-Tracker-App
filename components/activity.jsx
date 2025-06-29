@@ -3,14 +3,16 @@ import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native'
 import TableRow from "./table-row";
 import { colors } from "../styles/colors";
 import { Link } from 'expo-router';
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityManager } from "../services/activityManager";
+import { DateContext } from "../services/DateContext";
 
 function ActivitySection() {
     const [activityData, setActivityData] = useState([]);
     const [loading, setLoading] = useState(true);
     const activityManager = new ActivityManager();
+    const { currentDate } = useContext(DateContext);
 
     useFocusEffect(
         useCallback(() => {
@@ -18,7 +20,7 @@ function ActivitySection() {
 
             async function getNoteData() {
                 try {
-                    const result = await activityManager.getActivity();
+                    const result = await activityManager.getActivity(currentDate);
                     if (isActive) {
                         setActivityData(result);
                     }
@@ -29,13 +31,14 @@ function ActivitySection() {
                         setLoading(false);
                     }
                 }
+                setLoading(false);
             }
             getNoteData();
 
             return () => {
                 isActive = false;
             };
-        }, [])
+        }, [currentDate])
     );
 
     if (loading) {

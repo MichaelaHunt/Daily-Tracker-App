@@ -1,14 +1,16 @@
 import { Text, View, TextInput, StyleSheet, Button } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {NotesManager} from '../services/notesManager';
 import Toast from 'react-native-root-toast';
+import { DateContext } from '../services/DateContext';
 
 function EnterNotePage() {
     const [inputNote, setInputNote] = useState();
     const notesManager = new NotesManager();
+    const { currentDate } = useContext(DateContext);
 
     function handlePress() {
-        notesManager.setNotes(inputNote);
+        notesManager.setNotes(inputNote, currentDate);
         Toast.show('Saved successfully!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,

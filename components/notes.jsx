@@ -1,13 +1,15 @@
 import { globalStyles } from "../styles/globalStyles";
 import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { NotesManager } from "../services/notesManager";
+import { DateContext } from '../services/DateContext';
 
 function NoteSection() {
     const [loading, setLoading] = useState(true);
     const [noteList, setNoteList] = useState([]);
+    const { currentDate } = useContext(DateContext);
     const notesManager = new NotesManager();
 
     useFocusEffect(
@@ -16,7 +18,7 @@ function NoteSection() {
 
             async function getNoteData() {
                 try {
-                    const result = await notesManager.getNotes();
+                    const result = await notesManager.getNotes(currentDate);
                     if (isActive) {
                         setNoteList(result);
                     }
@@ -27,6 +29,7 @@ function NoteSection() {
                         setLoading(false);
                     }
                 }
+                setLoading(false);
             }
 
             getNoteData();
@@ -34,7 +37,7 @@ function NoteSection() {
             return () => {
                 isActive = false; // Prevent state update if component is unfocused
             };
-        }, [])
+        }, [currentDate])
     );
 
     if (loading) {
@@ -45,8 +48,8 @@ function NoteSection() {
         <>
             <View style={styles.notesContainer}>
                 <Text style={globalStyles.sectionText}>Notes</Text>
-                <View style={[noteList[0] != '' ? styles.innerContainer : styles.empty]}>
-                    {noteList[0] != '' ? (
+                <View style={[noteList[0] ? styles.innerContainer : styles.empty]}>
+                    {noteList[0] ? (
                         noteList.map((item, index) => (
                             <Text key={index}>{`\u2022 ${item}`}</Text>
                         ))
