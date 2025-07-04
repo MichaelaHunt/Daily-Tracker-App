@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         display: 'grid', 
         flexDirection: 'row',
         borderColor: 'black',
-        borderWidth: '1',
+        borderWidth: 1,
         width: '100%',
     },
     tText: {
