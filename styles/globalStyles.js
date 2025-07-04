@@ -6,7 +6,7 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: colors.background,
         gap: 8,
         minHeight: '100%',
-      },
+    },
     sectionText: {
         fontSize: 17,
         fontWeight: 600,
@@ -39,4 +39,18 @@ export const globalStyles = StyleSheet.create({
         height: 24,
         width: '100%'
     },
+    button: {
+        // backgroundColor: colors.buttonBackground,
+        backgroundColor: 'transparent',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 16,
+        alignItems: 'center',
+        alignSelf: 'flex-start',
+    },
+    buttonText: {
+        // color: colors.textOnButton,
+        color: 'black',
+        fontSize: 16
+    }
 });

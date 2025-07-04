@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from 'react';
 import {ActivityManager} from '../services/activityManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
+import CustomButton from '../components/custom-button';
 
 function EnterActivityPage() {
     const [inputActivity, setInputActivity] = useState();
@@ -61,10 +62,10 @@ function EnterActivityPage() {
                     </View>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Submit' onPress={() => { handlePress() }}></Button>
+                    <CustomButton label='Submit' onPress={() => { handlePress() }}></CustomButton>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Delete All Activity' onPress={() => { deleteButtonPress() }}></Button>
+                    <CustomButton label='Delete All Activity' onPress={() => { deleteButtonPress() }}></CustomButton>
                 </View>
             </View>
         </>

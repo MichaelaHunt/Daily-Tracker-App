@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 import { WeightManager } from '../services/weightManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
+import CustomButton from '../components/custom-button';
 
 export default function EnterWeightPage() {
     const [placeholder, setPlaceholder] = useState(null);
@@ -51,7 +52,7 @@ export default function EnterWeightPage() {
                 />
             </View>
             <View style={{marginTop: 24}}>
-                <Button onPress={() => { handleButtonPress() }} title='Submit'>Hello</Button>
+                <CustomButton onPress={() => { handleButtonPress() }} label='Submit'>Hello</CustomButton>
             </View>
         </View>
     );

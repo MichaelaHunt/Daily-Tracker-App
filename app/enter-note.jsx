@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import {NotesManager} from '../services/notesManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
+import CustomButton from '../components/custom-button';
 
 function EnterNotePage() {
     const [inputNote, setInputNote] = useState();
@@ -39,10 +40,10 @@ function EnterNotePage() {
                     />
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Submit' onPress={() => { handlePress() }}></Button>
+                    <CustomButton label='Submit' onPress={() => { handlePress() }}></CustomButton>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Delete All Notes' onPress={() => { deleteButtonPress() }}></Button>
+                    <CustomButton label='Delete All Notes' onPress={() => { deleteButtonPress() }}></CustomButton>
                 </View>
             </View>
         </>

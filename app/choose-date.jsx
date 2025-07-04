@@ -1,9 +1,10 @@
-import { Button, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useState, useContext, useEffect } from 'react';
 import DateTimePicker, { useDefaultStyles } from 'react-native-ui-datepicker';
 import { DateContext } from "../services/DateContext";
 import { useRouter } from "expo-router";
 import dayjs from 'dayjs';
+import CustomButton from "../components/custom-button";
 
 function ChooseDatePage() {
     const defaultStyles = useDefaultStyles();
@@ -35,8 +36,8 @@ function ChooseDatePage() {
                 disabledDates={disableFutureDates}
             />
             <View style={[styles.buttonRow]}>
-                <Button title="Today" onPress={() => { handleToday() }}></Button>
-                <Button title="Submit" onPress={() => { handleSubmit() }}></Button>
+                <CustomButton label='Today' function={() => {handleToday()}}></CustomButton>
+                <CustomButton label='Submit' function={() => {handleSubmit()}}></CustomButton>
             </View>
         </>
     );

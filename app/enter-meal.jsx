@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import Toast from 'react-native-root-toast';
 import {MealManager} from '../services/mealManager';
 import { DateContext } from '../services/DateContext';
+import CustomButton from '../components/custom-button';
 
 
 function EnterMealPage() {
@@ -67,7 +68,7 @@ function EnterMealPage() {
                     <TextInput style={styles.input} selectTextOnFocus={previous == '' ? false : true} multiline={true} scrollEnabled={false} onChangeText={setInputMeal} placeholder={previous}></TextInput>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Submit' onPress={() => { handlePress() }}></Button>
+                    <CustomButton label='Submit' function={() => { handlePress() }}></CustomButton>
                 </View>
             </View>
         </>

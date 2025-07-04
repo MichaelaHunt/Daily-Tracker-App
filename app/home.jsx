@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
 import { useContext, useEffect, useState } from 'react';
 import {DateContext} from '../services/DateContext';
+import CustomButton from '../components/custom-button';
 //#endregion
 
 export default function Home() {
@@ -54,8 +55,8 @@ export default function Home() {
         <View style={[styles.line, { marginBottom: 8 }]}></View>
         <NoteSection></NoteSection>
         <View style={[styles.line, { marginBottom: 8 }]}></View>
-        <View style={{ marginTop: 16, marginBottom: 16 }}>
-          <Button title='Export CSV' onPress={() => { handleExport() }}></Button>
+        <View style={{ marginTop: 16, marginBottom: 16, alignSelf: 'center' }}>
+          <CustomButton label='Export CSV' function={() => handleExport()}></CustomButton>
         </View>
       </ScrollView>
       <View style={globalStyles.homeSaver}></View>

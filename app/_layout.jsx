@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { DateProvider } from '../services/DateContext';
+import { StatusBar } from 'react-native';
 
 
 export default function RootLayout() {
@@ -9,6 +10,7 @@ export default function RootLayout() {
     <DateProvider>
       <SafeAreaProvider>
         <RootSiblingParent>
+          <StatusBar barStyle={'dark-content'}></StatusBar>
           <Stack>
             <Stack.Screen name="index" options={{ title: 'Home', headerShown: false }} />
             <Stack.Screen name="enter-weight" options={{ title: 'Enter Weight', headerShown: true }} />

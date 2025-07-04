@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     rectangle: {
-        height: 73,
-        width: 73,
+        height: 68,
+        width: 68,
         marginTop: 24,
         marginBottom: 8,
         borderRadius: 16,

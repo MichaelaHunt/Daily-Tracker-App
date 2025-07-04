@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useState, useCallback, useContext } from "react";
 import { globalStyles } from '../styles/globalStyles';
 import { Link } from 'expo-router';
@@ -74,9 +74,11 @@ function SleepSection() {
                         <Text>Nap</Text>
                     </View>
                 </View>
-                <View style={{ marginTop: 24 }}>
-                    <Link href="/enter-sleep" asChild>
-                        <Button title='Add Sleep'></Button>
+                <View style={{ marginTop: 24, alignSelf: 'center' }}>
+                    <Link style={styles.link} href="/enter-sleep" asChild>
+                        <TouchableOpacity style={globalStyles.button}>
+                            <Text style={globalStyles.buttonText}>Add Sleep</Text>
+                        </TouchableOpacity>
                     </Link>
                 </View>
             </View>
@@ -117,5 +119,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 29,
         color: colors.background,
-    }
+    },
 });

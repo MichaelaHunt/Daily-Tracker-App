@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     mealsContainer: {
         display: 'flex',
         justifyContent: 'center',
-        width: '100%',
         paddingLeft: 24,
         paddingRight: 24,
     },
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         gap: 11,
-        paddingLeft: 8,
-        paddingRight: 8,
+        width: '100%',
+        justifyContent: 'center',
     },
 });

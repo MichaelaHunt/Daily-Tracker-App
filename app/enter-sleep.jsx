@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import Toast from 'react-native-root-toast';
 import { SleepManager } from '../services/sleepManager';
 import { DateContext } from '../services/DateContext';
-
+import CustomButton from '../components/custom-button';
 
 function EnterSleepPage() {
     const [sleepDown, setSleepDown] = useState();
@@ -86,11 +86,11 @@ function EnterSleepPage() {
                     </View>
                 </View>
                 <View style={[{ marginTop: 24, width: '85%', justifyContent: 'space-between' }, globalStyles.row]}>
-                    <Button title='Submit Sleep' onPress={() => { handleSleepPress() }}></Button>
-                    <Button title='Submit Nap' onPress={() => { handleNapPress() }}></Button>
+                    <CustomButton label='Submit Sleep' onPress={() => { handleSleepPress() }}></CustomButton>
+                    <CustomButton label='Submit Nap' onPress={() => { handleNapPress() }}></CustomButton>
                 </View>
                 <View style={{ marginTop: 24 }}>
-                    <Button title='Delete All Sleep' onPress={() => { deleteButtonPress() }}></Button>
+                    <CustomButton label='Delete All Sleep' onPress={() => { deleteButtonPress() }}></CustomButton>
                 </View>
             </View>
         </>

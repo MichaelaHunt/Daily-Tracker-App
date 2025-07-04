@@ -1,5 +1,5 @@
 import { globalStyles } from "../styles/globalStyles";
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useCallback, useContext } from "react";
 import { useFocusEffect } from '@react-navigation/native';
@@ -58,7 +58,9 @@ function NoteSection() {
                     )}
                     <View style={{ marginTop: 16, marginBottom: 16 }}>
                         <Link href="/enter-note" asChild>
-                            <Button title='Add Note'></Button>
+                            <TouchableOpacity style={globalStyles.button}>
+                                <Text style={globalStyles.buttonText}>Add Note</Text>
+                            </TouchableOpacity>
                         </Link>
                     </View>
                 </View>

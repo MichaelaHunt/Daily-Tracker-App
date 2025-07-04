@@ -1,5 +1,5 @@
 import { globalStyles } from "../styles/globalStyles";
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import TableRow from "./table-row";
 import { colors } from "../styles/colors";
 import { Link } from 'expo-router';
@@ -58,13 +58,15 @@ function ActivitySection() {
                     <View style={{ width: '100%' }}>
                         {activityData[0] == '' ? null : (
                             activityData.map((item, index) => (
-                            // <TableRow key={index} label={item[0]} time={item[1]} level={item[2]} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
-                            <TableRow key={index} label={item} time={''} level={''} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
-                        )))}
+                                // <TableRow key={index} label={item[0]} time={item[1]} level={item[2]} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
+                                <TableRow key={index} label={item} time={''} level={''} color={index % 2 == 0 ? false : true} second={index < 1 ? false : true}></TableRow>
+                            )))}
                     </View>
                     <View style={{ marginTop: 8 }}>
                         <Link href="/enter-activity" asChild>
-                            <Button title='Add Activity'></Button>
+                            <TouchableOpacity style={globalStyles.button}>
+                                <Text style={globalStyles.buttonText}>Add Activity</Text>
+                            </TouchableOpacity>
                         </Link>
                     </View>
                 </View>
