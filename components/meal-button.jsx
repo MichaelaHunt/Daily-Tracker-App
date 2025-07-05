@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { colors } from '../styles/colors';
 
 function MealButton(props) {
     return (
         <>
-            
-                <View style={styles.mealButton}>
-                    <View style={styles.rectangle}>
-                    </View>
-                    <Text>{props.label}</Text>
-                </View>
+
+            <View style={styles.mealButton}>
+                <Image
+                    style={styles.tinyLogo}
+                    source={props.path}
+                />
+            </View>
         </>
     );
 }
@@ -22,12 +23,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    rectangle: {
+    tinyLogo: {
         height: 68,
         width: 68,
         marginTop: 24,
         marginBottom: 8,
         borderRadius: 16,
         backgroundColor: colors.primaryAccent,
-    },
+    }
 });

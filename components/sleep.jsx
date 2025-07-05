@@ -59,19 +59,19 @@ function SleepSection() {
                         <View style={styles.box}>
                             <Text style={styles.boxText}>{sleepText}</Text>
                         </View>
-                        <Text>Sleep</Text>
+                        <Text style={{color: colors.textOnBackground}}>Sleep</Text>
                     </View>
                     <View style={[globalStyles.column, styles.boxContainer]}>
                         <View style={styles.box}>
                             <Text style={styles.boxText}>{differenceText}</Text>
                         </View>
-                        <Text>Difference</Text>
+                        <Text style={{color: colors.textOnBackground}}>Difference</Text>
                     </View>
                     <View style={[globalStyles.column, styles.boxContainer]}>
                         <View style={styles.box}>
                             <Text style={styles.boxText}>{napText}</Text>
                         </View>
-                        <Text>Nap</Text>
+                        <Text style={{color: colors.textOnBackground}}>Nap</Text>
                     </View>
                 </View>
                 <View style={{ marginTop: 24, alignSelf: 'center' }}>

@@ -10,6 +10,10 @@ export const globalStyles = StyleSheet.create({
     sectionText: {
         fontSize: 17,
         fontWeight: 600,
+        color: colors.textOnBackground,
+    },
+    labelText: {
+        color: colors.textOnBackground,
     },
     row: {
         display: 'flex',
@@ -25,6 +29,7 @@ export const globalStyles = StyleSheet.create({
         marginLeft: 16,
         marginBottom: 8,
         marginTop: 8,
+        color: colors.textOnBackground,
     },
     sectionMargin: {
         marginBottom: 16,
@@ -40,8 +45,8 @@ export const globalStyles = StyleSheet.create({
         width: '100%'
     },
     button: {
-        // backgroundColor: colors.buttonBackground,
-        backgroundColor: 'transparent',
+        backgroundColor: colors.buttonBackground,
+        // backgroundColor: 'transparent',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 16,
@@ -49,8 +54,7 @@ export const globalStyles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     buttonText: {
-        // color: colors.textOnButton,
-        color: 'black',
+        color: colors.textOnButton,
         fontSize: 16
     }
 });

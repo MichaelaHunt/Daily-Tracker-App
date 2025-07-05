@@ -1,7 +1,9 @@
 export const colors = {
-    background: "#ffffff",
-    primaryAccent: "#779BE7",
+    background: "#E1F4CB",
+    primaryAccent: "#BACBA9",
     textOnAccent: "#ffffff",
-    buttonBackground: '#989898',
+    textOnBackground: '#ffffff',
+    buttonBackground: '#395C6B',
     textOnButton: '#ffffff',
+    dividerColor: '#d9d8da',
 }

@@ -19,7 +19,7 @@ function WeightSection() {
                                 </View>
                             </TouchableOpacity>
                         </Link>
-                        <Text>Add Weight</Text>
+                        <Text style={{color: colors.textOnBackground}}>Add Weight</Text>
                     </View>
                     <View style={[globalStyles.column, styles.scaleContainer]}>
                         {/* <Link style={styles.scaleContainer} href="/enter-weight" asChild> */}
@@ -27,7 +27,7 @@ function WeightSection() {
                                 <Image source={myImage} style={{ width: 125, height: 125, borderRadius: 16, marginBottom: 8 }}></Image>
                             </TouchableOpacity>
                         {/* </Link> */}
-                        <Text>View Graph</Text>
+                        <Text style={{color: colors.textOnBackground}}>View Graph</Text>
                     </View>
                 </View>
             </View>

@@ -5,6 +5,7 @@ import { useState, useCallback, useContext } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { NotesManager } from "../services/notesManager";
 import { DateContext } from '../services/DateContext';
+import { colors } from "../styles/colors";
 
 function NoteSection() {
     const [loading, setLoading] = useState(true);
@@ -51,10 +52,10 @@ function NoteSection() {
                 <View style={[noteList[0] ? styles.innerContainer : styles.empty]}>
                     {noteList[0] ? (
                         noteList.map((item, index) => (
-                            <Text key={index}>{`\u2022 ${item}`}</Text>
+                            <Text key={index} style={{color: colors.textOnBackground}}>{`\u2022 ${item}`}</Text>
                         ))
                     ) : (
-                        <Text>No notes today</Text>
+                        <Text style={{color: colors.textOnBackground}}>No notes today</Text>
                     )}
                     <View style={{ marginTop: 16, marginBottom: 16 }}>
                         <Link href="/enter-note" asChild>

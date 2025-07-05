@@ -14,7 +14,7 @@ function MealSection() {
                         params: { mealNumber: 1 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"1st"}></MealButton>
+                            <MealButton label={"1st"} path={require("../assets/Morning.png")}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -22,7 +22,7 @@ function MealSection() {
                         params: { mealNumber: 2 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"2nd"}></MealButton>
+                            <MealButton label={"2nd"} path={require("../assets/Afternoon.png")}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -30,7 +30,7 @@ function MealSection() {
                         params: { mealNumber: 3 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"3rd"}></MealButton>
+                            <MealButton label={"3rd"} path={require("../assets/Evening.png")}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -38,7 +38,7 @@ function MealSection() {
                         params: { mealNumber: 4 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"Snack"}></MealButton>
+                            <MealButton label={"Snack"} path={require("../assets/Snack.png")}></MealButton>
                         </TouchableOpacity>
                     </Link>
                 </View>

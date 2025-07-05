@@ -14,6 +14,7 @@ import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
 import { useContext, useEffect, useState } from 'react';
 import {DateContext} from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 //#endregion
 
 export default function Home() {
@@ -39,7 +40,7 @@ export default function Home() {
           <Text style={globalStyles.titleText}>{formattedDate}</Text>
           <Link href="/choose-date" asChild >
             <Text >
-              <FontAwesomeIcon icon={faCalendarDay} size={24}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faCalendarDay} size={24} color={colors.textOnBackground}></FontAwesomeIcon>
             </Text>
           </Link>
         </View>
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   line: {
     border: 'none',
     borderBottom: 'solid',
-    borderColor: '#d9d8da',
+    borderColor: colors.dividerColor,
     borderWidth: 0.5,
   }, 
   titleSection: {
