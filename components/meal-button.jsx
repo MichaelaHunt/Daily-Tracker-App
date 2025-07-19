@@ -1,21 +1,19 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { colors } from '../styles/colors';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-function MealButton(props) {
+export default function MealButton(props) {
     return (
         <>
-
             <View style={styles.mealButton}>
-                <Image
-                    style={styles.tinyLogo}
-                    source={props.path}
-                />
+                <View style={styles.rectangle}>
+                    <FontAwesomeIcon icon={props.innerIcon} size={28} color={colors.icons} style={styles.icon}></FontAwesomeIcon>
+                </View>
+                <Text style={{ color: colors.textOnBackground }}>{props.label}</Text>
             </View>
         </>
     );
 }
-
-export default MealButton;
 
 const styles = StyleSheet.create({
     mealButton: {
@@ -23,12 +21,19 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    tinyLogo: {
+    rectangle: {
         height: 68,
         width: 68,
         marginTop: 24,
         marginBottom: 8,
         borderRadius: 16,
-        backgroundColor: colors.primaryAccent,
-    }
+        backgroundColor: colors.squareButtonBackground,
+        position: 'relative',
+    },
+    icon: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+    },
+
 });

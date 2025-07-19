@@ -5,6 +5,7 @@ import { DateContext } from "../services/DateContext";
 import { useRouter } from "expo-router";
 import dayjs from 'dayjs';
 import CustomButton from "../components/custom-button";
+import { colors } from "../styles/colors";
 
 function ChooseDatePage() {
     const defaultStyles = useDefaultStyles();
@@ -27,7 +28,7 @@ function ChooseDatePage() {
     };
 
     return (
-        <>
+        <View style={styles.body}>
             <DateTimePicker
                 mode="single"
                 date={selected}
@@ -39,7 +40,7 @@ function ChooseDatePage() {
                 <CustomButton label='Today' function={() => {handleToday()}}></CustomButton>
                 <CustomButton label='Submit' function={() => {handleSubmit()}}></CustomButton>
             </View>
-        </>
+        </View>
     );
 }
 
@@ -51,5 +52,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "center",
         gap: 88,
+    },
+    body: {
+        backgroundColor: colors.background,
+        height: '100%',
     }
 });

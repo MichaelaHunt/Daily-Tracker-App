@@ -4,6 +4,7 @@ import {NotesManager} from '../services/notesManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 
 function EnterNotePage() {
     const [inputNote, setInputNote] = useState();
@@ -37,6 +38,7 @@ function EnterNotePage() {
                     <TextInput
                         placeholder="Note here!"
                         onChangeText={setInputNote}
+                        style={styles.input}
                     />
                 </View>
                 <View style={{ marginTop: 24 }}>
@@ -56,11 +58,12 @@ const styles = StyleSheet.create({
     body: {
         paddingTop: 32,
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: colors.background,
+        height: '100%',
     },
     inputContainer: {
-        backgroundColor: "white",
+        backgroundColor: colors.cardBackground,
         padding: 8,
         paddingLeft: 16,
         paddingRight: 16,

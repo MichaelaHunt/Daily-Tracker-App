@@ -10,6 +10,7 @@ export const globalStyles = StyleSheet.create({
     sectionText: {
         fontSize: 17,
         fontWeight: 600,
+        marginLeft: 16,
         color: colors.textOnBackground,
     },
     labelText: {
@@ -35,8 +36,8 @@ export const globalStyles = StyleSheet.create({
         marginBottom: 16,
     },
     statusSaver: {
-        backgroundColor: colors.background,
-        height: 48,
+        backgroundColor: colors.cardBackground,
+        height: 32,
         width: '100%'
     },
     homeSaver: {
@@ -45,7 +46,7 @@ export const globalStyles = StyleSheet.create({
         width: '100%'
     },
     button: {
-        backgroundColor: colors.buttonBackground,
+        backgroundColor: colors.actionButtonBackground,
         // backgroundColor: 'transparent',
         paddingVertical: 12,
         paddingHorizontal: 24,
@@ -54,7 +55,12 @@ export const globalStyles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     buttonText: {
-        color: colors.textOnButton,
+        color: colors.actionButtonText,
         fontSize: 16
+    },
+    card: {
+        backgroundColor: colors.cardBackground,
+        paddingVertical: 16,
+        borderRadius: 16,
     }
 });

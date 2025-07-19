@@ -6,6 +6,7 @@ import Toast from 'react-native-root-toast';
 import {MealManager} from '../services/mealManager';
 import { DateContext } from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 
 
 function EnterMealPage() {
@@ -63,7 +64,7 @@ function EnterMealPage() {
     return (
         <>
             <View style={styles.body}>
-                <Text style={[styles.text, globalStyles.sectionText]}>{label}</Text>
+                <Text style={[styles.text]}>{label}</Text>
                 <View style={styles.inputContainer}>
                     <TextInput style={styles.input} selectTextOnFocus={previous == '' ? false : true} multiline={true} scrollEnabled={false} onChangeText={setInputMeal} placeholder={previous}></TextInput>
                 </View>
@@ -81,11 +82,13 @@ const styles = StyleSheet.create({
     body: {
         paddingTop: 24,
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        textAlign: 'center',
+        backgroundColor: colors.background,
+        height: '100%',
     },
     inputContainer: {
-        backgroundColor: "white",
+        backgroundColor: colors.cardBackground,
         padding: 8,
         paddingLeft: 16,
         paddingRight: 16,
@@ -97,5 +100,8 @@ const styles = StyleSheet.create({
     },
     text: {
         marginBottom: 16,
+        fontSize: 17,
+        fontWeight: 600,
+        color: colors.textOnBackground,
     }
 });

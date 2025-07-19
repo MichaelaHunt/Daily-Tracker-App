@@ -5,6 +5,7 @@ import {ActivityManager} from '../services/activityManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 
 function EnterActivityPage() {
     const [inputActivity, setInputActivity] = useState();
@@ -41,6 +42,7 @@ function EnterActivityPage() {
                             style={styles.input}
                             placeholder="Running"
                             onChangeText={setInputActivity}
+                            placeholderTextColor={colors.placeholderColor}
                         />
                     </View>
                     <View style={styles.line}></View>
@@ -50,6 +52,7 @@ function EnterActivityPage() {
                             style={styles.input}
                             placeholder="65"
                             keyboardType='numeric'
+                            placeholderTextColor={colors.placeholderColor}
                         />
                     </View>
                     <View style={styles.line}></View>
@@ -58,6 +61,7 @@ function EnterActivityPage() {
                         <TextInput
                             style={styles.input}
                             placeholder="Easy"
+                            placeholderTextColor={colors.placeholderColor}
                         />
                     </View>
                 </View>
@@ -78,20 +82,25 @@ const styles = StyleSheet.create({
     body: {
         padding: 16,
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: colors.background,
+        height: '100%',
     },
     inputContainer: {
-        backgroundColor: "white",
+        backgroundColor: colors.cardBackground,
         padding: 8,
         paddingLeft: 16,
         paddingRight: 16,
-        borderRadius: 8,
+        borderRadius: 16,
         width: '85%',
     },
     item: {
         paddingTop: 8,
-        paddingBottom: 8
+        paddingBottom: 8,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        textAlign: 'center',
     },
     line: {
         border: 'none',
@@ -101,8 +110,14 @@ const styles = StyleSheet.create({
     },
     label: {
         width: '60%',
+        color: colors.textOnBackground,
     },
     input: {
         width: '40%',
+        backgroundColor: colors.background,
+        paddingLeft: 8,
+        // borderColor: 'black',
+        // borderWidth: 1,
+        borderRadius: 8
     }
 });

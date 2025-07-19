@@ -52,7 +52,7 @@ function ActivitySection() {
 
     return (
         <>
-            <View style={[styles.activityContainer, globalStyles.sectionMargin]}>
+            <View style={[styles.activityContainer, globalStyles.sectionMargin, globalStyles.card]}>
                 <Text style={globalStyles.sectionText}>Activity</Text>
                 <View style={styles.innerContainer}>
                     <View style={{ width: '100%' }}>
@@ -79,9 +79,7 @@ export default ActivitySection;
 
 const styles = StyleSheet.create({
     activityContainer: {
-        width: '100%',
-        paddingLeft: 24,
-        paddingRight: 24,
+        marginHorizontal: 16,
     },
     innerContainer: {
         paddingLeft: 8,

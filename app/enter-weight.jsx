@@ -5,6 +5,7 @@ import { WeightManager } from '../services/weightManager';
 import Toast from 'react-native-root-toast';
 import { DateContext } from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 
 export default function EnterWeightPage() {
     const [placeholder, setPlaceholder] = useState(null);
@@ -46,9 +47,11 @@ export default function EnterWeightPage() {
             <View style={[styles.inputContainer, globalStyles.row]}>
                 <Text style={styles.label}>Weight (Kilos)</Text>
                 <TextInput
+                    style={styles.input}
                     placeholder={placeholder == "" ? "0" : placeholder}
                     keyboardType="numeric"
                     onChangeText={setinputWeight}
+                    placeholderTextColor={colors.squareButtonText}
                 />
             </View>
             <View style={{marginTop: 24}}>
@@ -62,21 +65,30 @@ const styles = StyleSheet.create({
     body: {
         paddingTop: 32,
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: colors.background,
+        height: '100%',
     },
     inputContainer: {
-        backgroundColor: "white",
+        backgroundColor: colors.cardBackground,
         padding: 8,
         paddingLeft: 16,
         paddingRight: 16,
         borderRadius: 8,
         width: '70%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        textAlign: 'center',
     },
     label: {
-        width: '85%',
+        color: colors.squareButtonText,
     },
     input: {
-        width: '100%',
+        width: '20%',
+        textAlign: 'center',
+        borderRadius: 8,
+        paddingLeft: 8,
+        backgroundColor: colors.background,
     }
 });

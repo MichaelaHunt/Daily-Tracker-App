@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 export class Manager {
     //#region Constants
-    CONSOLE_LOG = false;
+    CONSOLE_LOG = true;
     FILE_STATUSES = {
         fileAndRowExist: 2,//both the file and the row exists
         fileExists: 1,//only the file exists

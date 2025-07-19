@@ -52,7 +52,7 @@ function SleepSection() {
 
     return (
         <>
-            <View style={[styles.activityContainer, globalStyles.sectionMargin]}>
+            <View style={[styles.activityContainer, globalStyles.sectionMargin, globalStyles.card]}>
                 <Text style={globalStyles.sectionText}>Sleep</Text>
                 <View style={[styles.innerContainer, globalStyles.row]}>
                     <View style={[globalStyles.column, styles.boxContainer]}>
@@ -90,9 +90,7 @@ export default SleepSection;
 
 const styles = StyleSheet.create({
     activityContainer: {
-        width: '100%',
-        paddingLeft: 24,
-        paddingRight: 24,
+        marginHorizontal: 16,
     },
     innerContainer: {
         paddingLeft: 8,
@@ -100,10 +98,10 @@ const styles = StyleSheet.create({
         marginTop: 24,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
     },
     box: {
-        backgroundColor: colors.primaryAccent,
+        backgroundColor: colors.squareButtonBackground,
         width: 75,
         height: 75,
         borderRadius: 16,
@@ -118,6 +116,6 @@ const styles = StyleSheet.create({
     boxText: {
         position: 'absolute',
         top: 29,
-        color: colors.background,
+        color: colors.squareButtonText,
     },
 });

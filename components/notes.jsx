@@ -47,7 +47,7 @@ function NoteSection() {
 
     return (
         <>
-            <View style={styles.notesContainer}>
+            <View style={[styles.notesContainer, globalStyles.card]}>
                 <Text style={globalStyles.sectionText}>Notes</Text>
                 <View style={[noteList[0] ? styles.innerContainer : styles.empty]}>
                     {noteList[0] ? (
@@ -74,9 +74,7 @@ export default NoteSection;
 
 const styles = StyleSheet.create({
     notesContainer: {
-        width: '100%',
-        paddingLeft: 24,
-        paddingRight: 24,
+        marginHorizontal: 16,
     },
     innerContainer: {
         paddingLeft: 16,

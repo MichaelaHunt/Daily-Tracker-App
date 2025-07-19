@@ -5,6 +5,7 @@ import Toast from 'react-native-root-toast';
 import { SleepManager } from '../services/sleepManager';
 import { DateContext } from '../services/DateContext';
 import CustomButton from '../components/custom-button';
+import { colors } from '../styles/colors';
 
 function EnterSleepPage() {
     const [sleepDown, setSleepDown] = useState();
@@ -80,7 +81,7 @@ function EnterSleepPage() {
                     <View style={[globalStyles.row, styles.item]}>
                         <Text style={styles.label}>Nap</Text>
                         <Switch
-                            style={{ marginTop: -8, marginBottom: -8, marginLeft: -8 }}
+                            style={{ marginTop: -8, marginBottom: -8, marginLeft: 8 }}
                             onValueChange={toggleSwitch}
                             value={napBool} />
                     </View>
@@ -104,11 +105,13 @@ const styles = StyleSheet.create({
     body: {
         padding: 16,
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        // justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.background,
+        height: '100%',
     },
     inputContainer: {
-        backgroundColor: "white",
+        backgroundColor: colors.cardBackground,
         padding: 8,
         paddingLeft: 16,
         paddingRight: 16,
@@ -129,10 +132,14 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     label: {
-        width: '85%',
+        width: '80%',
+        color: colors.textOnBackground,
     },
     input: {
-        width: '15%',
-        textAlign: 'right',
+        width: '20%',
+        textAlign: 'center',
+        borderRadius: 8,
+        paddingLeft: 8,
+        backgroundColor: colors.background,
     }
 });

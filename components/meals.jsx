@@ -2,11 +2,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MealButton from './meal-button';
 import { globalStyles } from '../styles/globalStyles';
 import { Link } from 'expo-router';
+import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
+import { faDrumstickBite } from '@fortawesome/free-solid-svg-icons/faDrumstickBite';
+import { faBowlFood } from '@fortawesome/free-solid-svg-icons/faBowlFood';
+import { faCookieBite } from '@fortawesome/free-solid-svg-icons/faCookieBite';
+import { colors } from '../styles/colors';
 
 function MealSection() {
     return (
         <>
-            <View style={[styles.mealsContainer, globalStyles.sectionMargin]}>
+            <View style={[styles.mealsContainer, globalStyles.card, globalStyles.sectionMargin]}>
                 <Text style={globalStyles.sectionText}>Meals</Text>
                 <View style={styles.row}>
                     <Link href={{
@@ -14,7 +19,7 @@ function MealSection() {
                         params: { mealNumber: 1 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"1st"} path={require("../assets/Morning.png")}></MealButton>
+                            <MealButton label={"1st"} innerIcon={faMugSaucer}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -22,7 +27,7 @@ function MealSection() {
                         params: { mealNumber: 2 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"2nd"} path={require("../assets/Afternoon.png")}></MealButton>
+                            <MealButton label={"2nd"} innerIcon={faDrumstickBite}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -30,7 +35,7 @@ function MealSection() {
                         params: { mealNumber: 3 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"3rd"} path={require("../assets/Evening.png")}></MealButton>
+                            <MealButton label={"3rd"} innerIcon={faBowlFood}></MealButton>
                         </TouchableOpacity>
                     </Link>
                     <Link href={{
@@ -38,7 +43,7 @@ function MealSection() {
                         params: { mealNumber: 4 },
                     }} asChild>
                         <TouchableOpacity>
-                            <MealButton label={"Snack"} path={require("../assets/Snack.png")}></MealButton>
+                            <MealButton label={"Snack"} innerIcon={faCookieBite}></MealButton>
                         </TouchableOpacity>
                     </Link>
                 </View>
@@ -53,14 +58,12 @@ const styles = StyleSheet.create({
     mealsContainer: {
         display: 'flex',
         justifyContent: 'center',
-        paddingLeft: 24,
-        paddingRight: 24,
+        marginHorizontal: 16,
     },
     row: {
         display: 'flex',
         flexDirection: 'row',
-        gap: 11,
-        width: '100%',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
+        paddingHorizontal: 8,
     },
 });
